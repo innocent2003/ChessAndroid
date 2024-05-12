@@ -8,13 +8,18 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Rect
 import android.graphics.RectF
+import android.nfc.Tag
 import android.util.AttributeSet
+import android.util.Log
+import android.view.MotionEvent
 import android.view.View
+import kotlin.math.min
 
 class ChessView(context: Context?, attrs:AttributeSet) : View(context, attrs) {
-    private final val originX = 20f
-    private final val originY = 200f
-    private final val cellSide = 130f
+    private final val scaleFactor = .9f
+    private final var originX = 20f
+    private final var originY = 200f
+    private final var cellSide = 130f
     private final val imgResIDs = setOf(
         R.drawable.bishop_black,
         R.drawable.bishop_white,
@@ -33,25 +38,51 @@ class ChessView(context: Context?, attrs:AttributeSet) : View(context, attrs) {
     private final val paint = Paint()
     private final val lightColor = Color.argb(1f,.4f,.4f,.4f)
     private final val darkColor = Color.argb(1f,.5f,.5f,.5f)
+
+    var chessDelegate: ChessDelegate? = null
     init{
         loadBitmaps()
     }
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
+
+        Log.d(TAG, "${canvas?.width}, ${canvas?.height}")
+        canvas ?: return
+
+            val chessBoardSide = min(canvas.width, canvas.height) *scaleFactor
+            cellSide = chessBoardSide / 8f
+            originX = (canvas.width - chessBoardSide) / 2f
+            originY = (canvas.height - chessBoardSide) / 2f
+
+
         drawChessBoard(canvas)
         drawPieces(canvas)
+
+    }
+
+    override fun onTouchEvent(event: MotionEvent?): Boolean {
+        event ?:return false
+        when(event.action){
+            MotionEvent.ACTION_DOWN ->{
+                Log.d(TAG, "down")
+            }
+            MotionEvent.ACTION_UP ->{
+                Log.d(TAG, "up")
+            }
+        }
+        return true
     }
     private fun drawPieces(canvas: Canvas?){
-        val chessModel = ChessModel()
-        chessModel.reset()
+//        val chessModel = ChessModel()
+//        chessModel.reset()
         for(row in 0..7){
             for(col in 0..7){
 //                val piece = chessModel.pieceAt(col, row)
 //                if(piece != null){
 //                    drawPieceAt(canvas, col, row, piece.resID)
 //                }
-                chessModel.pieceAt(col,row)?.let{drawPieceAt(canvas,col,row,it.resID)}
+                chessDelegate?.pieceAt(col,row)?.let{drawPieceAt(canvas,col,row,it.resID)}
             }
         }
 
@@ -69,17 +100,19 @@ class ChessView(context: Context?, attrs:AttributeSet) : View(context, attrs) {
         }
     }
     private fun drawChessBoard(canvas: Canvas){
-        for(j in 0..7){
-            for(i in 0..7){
-                paint.color  = if((i+j) % 2 == 1) darkColor else lightColor
-                canvas?.drawRect(originX + i *cellSide, originY + j *cellSide, originX+(i+1)*cellSide,originY+(j+1)*cellSide,paint)
+        for(row in 0..7){
+            for(col in 0..7){
+                drawSquareAt(canvas, col, row, (col+row)%2==1)
+//                paint.color  = if((i+j) % 2 == 1) darkColor else lightColor
+//                canvas?.drawRect(originX + i *cellSide, originY + j *cellSide, originX+(i+1)*cellSide,originY+(j+1)*cellSide,paint)
             }
         }
     }
 
-//    private fun drawSquareAt(col: Int, row: Int, isDark: Boolean){
-//        paint.color = if(isDark) darkColor
-//    }
+    private fun drawSquareAt(canvas: Canvas?,col: Int, row: Int, isDark: Boolean){
+        paint.color  = if(isDark) darkColor else lightColor
+        canvas?.drawRect(originX + col *cellSide, originY + row *cellSide, originX+(col+1)*cellSide,originY+(row+1)*cellSide,paint)
+    }
 
 
 
