@@ -7,7 +7,7 @@ class ChessModel {
     init {
         Log.d(TAG, "${pieceBox.size}")
         reset()
-        movePiece(1,7,1,4)
+//        movePiece(1,7,1,4)
         Log.d(TAG, toString())
     }
     fun movePiece(fromCol: Int, fromRow: Int, toCol: Int, toRow: Int){
