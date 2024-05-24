@@ -57,7 +57,15 @@ object ChessGame {
             piecesBox[to] = movingPiece
             piecesBox.remove(from)
             turn = if (turn == Player.WHITE) Player.BLACK else Player.WHITE
+            if (movingPiece.chessman == Chessman.KING && canCastle(from, to)) {
+                performCastling(from, to)
+            } else {
+                piecesBox[to] = movingPiece
+                piecesBox.remove(from)
+                turn = if (turn == Player.WHITE) Player.BLACK else Player.WHITE
+            }
         }
+
     }
 
     private fun canMove(from: Square, to: Square): Boolean {
@@ -107,6 +115,66 @@ object ChessGame {
         }
         return false
     }
+
+    private fun canCastle(from: Square, to: Square): Boolean {
+        val king = pieceAt(from)
+        val rook = pieceAt(to)
+
+        // Check if the king and rook are in their initial positions and haven't moved
+        val kingInitialPosition = if (king?.player == Player.WHITE) Square(4, 0) else Square(4, 7)
+        val rookInitialPosition = if (king?.player == Player.WHITE) Square(0, 0) else Square(0, 7)
+
+        if (from != kingInitialPosition || to != rookInitialPosition) return false
+        if (king == null || rook == null) return false
+
+        // Check if the squares between the king and rook are empty
+        val direction = if (to.col > from.col) 1 else -1
+        for (col in from.col + direction until to.col) {
+            if (pieceAt(Square(col, from.row)) != null) return false
+        }
+
+        // Check if the squares that the king moves through or ends up on are not under attack
+        val newKingSquare = Square(from.col + 2 * direction, from.row)
+        return !isCheck(king.player) && !isCheckAfterMove(king.player, from, newKingSquare)
+    }
+
+    private fun performCastling(from: Square, to: Square) {
+        val king = pieceAt(from)
+        val rook = pieceAt(to)
+
+        // Determine the direction of castling (left or right)
+        val direction = if (to.col > from.col) 1 else -1
+
+        // Update the positions of the king and rook
+        val newKingSquare = Square(from.col + 2 * direction, from.row)
+        val newRookSquare = Square(to.col + direction, from.row)
+
+        piecesBox.remove(from)
+        piecesBox.remove(to)
+        piecesBox[newKingSquare] = king!!
+        piecesBox[newRookSquare] = rook!!
+
+        // Update turn
+        turn = if (turn == Player.WHITE) Player.BLACK else Player.WHITE
+    }
+
+    private fun isCheckAfterMove(player: Player, from: Square, to: Square): Boolean {
+        val pieceAtDestination = piecesBox[to]
+        piecesBox[to] = piecesBox[from]!!
+        piecesBox.remove(from)
+
+        val inCheck = isCheck(player)
+
+        piecesBox[from] = piecesBox[to]!!
+        if (pieceAtDestination != null) {
+            piecesBox[to] = pieceAtDestination
+        } else {
+            piecesBox.remove(to)
+        }
+
+        return inCheck
+    }
+
 
 
     private fun isPathClear(from: Square, to: Square): Boolean {
