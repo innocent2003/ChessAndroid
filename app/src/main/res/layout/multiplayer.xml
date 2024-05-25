@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/light_yellow">
+
+
+    <ImageView
+        android:id="@+id/IconPlayer1"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="87dp"
+        tools:src="@drawable/user_icon" />
+
+    <TextView
+        android:id="@+id/TextPlayer1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="8dp"
+        android:text="Player_1"
+        tools:layout_editor_absoluteX="64dp"
+        tools:layout_editor_absoluteY="97dp" />
+
+    <TextView
+        android:id="@+id/TimerPlayer1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="20:00"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.933"
+        app:layout_constraintStart_toEndOf="@+id/TextPlayer1"
+        tools:layout_editor_absoluteY="97dp" />
+
+    <ImageView
+        android:id="@+id/IconPlayer2"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="444dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/IconPlayer1"
+        tools:src="@drawable/user_icon" />
+
+    <TextView
+        android:id="@+id/TextPlayer2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="8dp"
+        android:layout_marginTop="464dp"
+        android:text="Player_2"
+        app:layout_constraintTop_toBottomOf="@+id/TextPlayer1"
+        tools:layout_editor_absoluteX="64dp" />
+
+    <TextView
+        android:id="@+id/TimerPlayer2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="20:00"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.928"
+        app:layout_constraintStart_toEndOf="@+id/TextPlayer2"
+        tools:layout_editor_absoluteY="574dp" />
+
+
+    <LinearLayout
+        android:id="@+id/layout_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <ImageView
+            android:id="@+id/IconBack"
+            android:layout_width="85dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/back_icon" />
+
+        <ImageView
+            android:id="@+id/IconReset"
+            android:layout_width="85dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/reset_icon" />
+
+        <ImageView
+            android:id="@+id/IconResign"
+            android:layout_width="85dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/resign_icon" />
+
+        <ImageView
+            android:id="@+id/IconSettings"
+            android:layout_width="85dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/settings_icon" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layout_button"
+        app:layout_constraintVertical_bias="0.05">
+
+        <TextView
+            android:id="@+id/TextBack"
+            android:layout_width="85dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Back"
+            android:textColor="@color/purple"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/TextReset"
+            android:layout_width="85dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Reset"
+            android:textColor="@color/purple"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/TextResign"
+            android:layout_width="85dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Resign"
+            android:textColor="@color/purple"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/TextSettings"
+            android:layout_width="85dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Settings"
+            android:textColor="@color/purple"
+            android:textStyle="bold" />
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
