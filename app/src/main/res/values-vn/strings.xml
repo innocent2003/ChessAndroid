@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">ChessMate</string>
     <string name="multiplayer">Multiplayer</string>
@@ -5,9 +6,9 @@
     <string name="match_history">Match History</string>
     <string name="settings">Settings</string>
 
-    <string name="Settings">Settings</string>
-    <string name="Music">Music</string>
-    <string name="Sound">Sound</string>
-    <string name="Language">Language</string>
-    <string name="Back">Back</string>
+    <string name="Settings">Cài Đặt</string>
+    <string name="Music">Âm nhạc</string>
+    <string name="Sound">Âm thanh</string>
+    <string name="Language">Ngôn ngữ</string>
+    <string name="Back">Trở lại</string>
 </resources>

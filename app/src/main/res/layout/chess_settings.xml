@@ -1,73 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="25dp"
     android:background="@color/light_yellow">
+
 
     <TextView
         android:id="@+id/TitleSettings"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Settings"
+        android:layout_marginTop="50dp"
+        android:text="@string/Settings"
+        android:gravity="center"
         android:textSize="40dp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="81dp" />
-
+        android:textStyle="bold" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="592dp"
         android:gravity="center"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        android:layout_marginTop="50dp">
 
         <TextView
             android:id="@+id/TextMusic"
             android:layout_width="249dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:text="Music"
+            android:text="@string/Music"
             android:textSize="23dp"
             app:layout_constraintStart_toStartOf="parent"
             tools:layout_editor_absoluteY="222dp" />
 
         <Switch
+            android:id="@+id/SwMusic"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-
-            />
+            android:layout_height="wrap_content" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="480dp"
         android:gravity="center"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        android:layout_marginTop="50dp">
 
         <TextView
             android:id="@+id/TextSound"
             android:layout_width="248dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:text="Sound"
+            android:text="@string/Sound"
             android:textSize="23dp"
             app:layout_constraintStart_toStartOf="parent"
             tools:layout_editor_absoluteY="292dp" />
 
         <Switch
+            android:id="@+id/SwSound"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-
-            />
+            android:layout_height="wrap_content" />
     </LinearLayout>
 
     <LinearLayout
@@ -75,17 +70,14 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="442dp">
+        android:layout_marginTop="50dp">
 
         <TextView
             android:id="@+id/TextLanguage"
             android:layout_width="116dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:text="Language"
+            android:text="@string/Language"
             android:textSize="23dp"
             app:layout_constraintStart_toStartOf="parent"
             tools:layout_editor_absoluteY="359dp" />
@@ -111,8 +103,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="vertical"
-        tools:layout_editor_absoluteX="25dp"
-        tools:layout_editor_absoluteY="697dp">
+        android:layout_marginTop="50dp">
 
         <ImageView
             android:id="@+id/IconBack"
@@ -125,10 +116,10 @@
             android:layout_width="85dp"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="Back"
+            android:text="@string/Back"
             android:textColor="@color/purple"
             android:textStyle="bold" />
     </LinearLayout>
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>
