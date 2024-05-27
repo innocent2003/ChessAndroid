@@ -60,14 +60,7 @@ object ChessGame {
             piecesBox[to] = movingPiece
             piecesBox.remove(from)
             turn = if (turn == Player.WHITE) Player.BLACK else Player.WHITE
-
-//            else {
-//                piecesBox[to] = movingPiece
-//                piecesBox.remove(from)
-//                turn = if (turn == Player.WHITE) Player.BLACK else Player.WHITE
-//            }
         }
-
     }
 
     private fun canMove(from: Square, to: Square): Boolean {
@@ -177,8 +170,6 @@ object ChessGame {
         return inCheck
     }
 
-
-
     private fun isPathClear(from: Square, to: Square): Boolean {
         val deltaCol = to.col - from.col
         val deltaRow = to.row - from.row
@@ -206,7 +197,7 @@ object ChessGame {
         if (!isCheck(player)) return false
         return piecesBox.filter { it.value.player == player }.all { (from, _) ->
             getAllPossibleMoves(from).all { to ->
-                !wouldBeInCheckAfterMove(player, from, to)
+                wouldBeInCheckAfterMove(player, from, to)
             }
         }
     }
@@ -250,4 +241,3 @@ object ChessGame {
         return piecesBox.entries.find { it.value.player == player && it.value.chessman == Chessman.KING }?.key
     }
 }
-
