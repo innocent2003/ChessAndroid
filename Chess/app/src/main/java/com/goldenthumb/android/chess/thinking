@@ -1,7 +1,3 @@
-package com.goldenthumb.android.chess
-
-import kotlin.math.abs
-
 object ChessGame {
     private var piecesBox: MutableMap<Square, ChessPiece>
     var turn = Player.WHITE
@@ -60,15 +56,6 @@ object ChessGame {
     fun pieceAt(square: Square): ChessPiece? = piecesBox[square]
 
     fun movePiece(from: Square, to: Square) {
-//        val movingPiece = pieceAt(from) ?: return
-//        if (movingPiece.chessman == Chessman.KING && canCastle(from, to)) {
-//            performCastling(from, to)
-//        }
-//        if (movingPiece.player == turn && canMove(from, to)) {
-//            piecesBox[to] = movingPiece
-//            piecesBox.remove(from)
-//            turn = if (turn == Player.WHITE) Player.BLACK else Player.WHITE
-//        }
         val movingPiece = pieceAt(from) ?: return
         if (movingPiece.chessman == Chessman.KING && canCastle(from, to)) {
             performCastling(from, to)
@@ -153,17 +140,6 @@ object ChessGame {
         }
         return false
     }
-    private fun isClearVerticallyBetween(from: Square, to: Square): Boolean {
-        if (from.col != to.col) return false
-        val range = if (from.row < to.row) (from.row + 1 until to.row) else (to.row + 1 until from.row)
-        return range.none { pieceAt(Square(from.col, it)) != null }
-    }
-
-    private fun isClearHorizontallyBetween(from: Square, to: Square): Boolean {
-        if (from.row != to.row) return false
-        val range = if (from.col < to.col) (from.col + 1 until to.col) else (to.col + 1 until from.col)
-        return range.none { pieceAt(Square(it, from.row)) != null }
-    }
 
     private fun canCastle(from: Square, to: Square): Boolean {
         val movingPiece = pieceAt(from) ?: return false
@@ -191,118 +167,7 @@ object ChessGame {
 
         return true
     }
-//    private fun canCastle(from: Square, to: Square): Boolean {
-//        val king = pieceAt(from) ?: return false
-//        val rook = pieceAt(to) ?: return false
-//
-//        if (king.chessman != Chessman.KING || rook.chessman != Chessman.ROOK) return false
-//        if (king.player != turn || rook.player != turn) return false
-//
-//        // Check if the king or rook have moved
-//        if (from in hasMoved || to in hasMoved) return false
-//
-//        // Check if the squares between the king and rook are empty
-//        val direction = if (to.col > from.col) 1 else -1
-//        for (col in from.col + direction until to.col step direction) {
-//            if (pieceAt(Square(col, from.row)) != null) return false
-//        }
-//
-//        // Check if the squares that the king moves through or ends up on are not under attack
-//        val kingPath = listOf(from, Square(from.col + direction, from.row), Square(from.col + 2 * direction, from.row))
-//        if (kingPath.any { isCheckAfterMove(king.player, from, it) }) return false
-//
-//        return true
-//    }
 
-
-
-    private fun isCheckAfterMove(player: Player, from: Square, to: Square): Boolean {
-        val pieceAtDestination = piecesBox[to]
-        piecesBox[to] = piecesBox[from]!!
-        piecesBox.remove(from)
-
-        val inCheck = isCheck(player)
-
-        piecesBox[from] = piecesBox[to]!!
-        if (pieceAtDestination != null) {
-            piecesBox[to] = pieceAtDestination
-        } else {
-            piecesBox.remove(to)
-        }
-
-        return inCheck
-    }
-
-    private fun isPathClear(from: Square, to: Square): Boolean {
-        val deltaCol = to.col - from.col
-        val deltaRow = to.row - from.row
-        val stepCol = Integer.signum(deltaCol)
-        val stepRow = Integer.signum(deltaRow)
-        var currentCol = from.col + stepCol
-        var currentRow = from.row + stepRow
-
-        while (currentCol != to.col || currentRow != to.row) {
-            if (pieceAt(Square(currentCol, currentRow)) != null) return false
-            currentCol += stepCol
-            currentRow += stepRow
-        }
-        return true
-    }
-
-    fun isCheck(player: Player): Boolean {
-        val kingPosition = findKing(player) ?: return false
-        return piecesBox.any { (square, piece) ->
-            piece.player != player && canMove(square, kingPosition)
-        }
-    }
-
-    fun isCheckmate(player: Player): Boolean {
-        if (!isCheck(player)) return false
-        return piecesBox.filter { it.value.player == player }.all { (from, _) ->
-            getAllPossibleMoves(from).all { to ->
-                wouldBeInCheckAfterMove(player, from, to)
-            }
-        }
-    }
-
-    fun isStalemate(player: Player): Boolean {
-        if (isCheck(player)) return false
-        return piecesBox.filter { it.value.player == player }.all { (from, _) ->
-            getAllPossibleMoves(from).all { to ->
-                wouldBeInCheckAfterMove(player, from, to)
-            }
-        }
-    }
-
-    private fun getAllPossibleMoves(from: Square): List<Square> {
-        return (0 until 8).flatMap { col ->
-            (0 until 8).mapNotNull { row ->
-                val to = Square(col, row)
-                if (canMove(from, to)) to else null
-            }
-        }
-    }
-
-    private fun wouldBeInCheckAfterMove(player: Player, from: Square, to: Square): Boolean {
-        val pieceAtDestination = piecesBox[to]
-        piecesBox[to] = piecesBox[from]!!
-        piecesBox.remove(from)
-
-        val inCheck = isCheck(player)
-
-        piecesBox[from] = piecesBox[to]!!
-        if (pieceAtDestination != null) {
-            piecesBox[to] = pieceAtDestination
-        } else {
-            piecesBox.remove(to)
-        }
-
-        return inCheck
-    }
-
-    private fun findKing(player: Player): Square? {
-        return piecesBox.entries.find { it.value.player == player && it.value.chessman == Chessman.KING }?.key
-    }
     private fun performCastling(from: Square, to: Square) {
         val direction = if (to.col > from.col) 1 else -1
         val newKingSquare = Square(from.col + 2 * direction, from.row)
@@ -321,17 +186,16 @@ object ChessGame {
         turn = if (turn == Player.WHITE) Player.BLACK else Player.WHITE
     }
 
-//    private fun isPathClear(from: Square, to: Square): Boolean {
-//        val colStep = if (to.col - from.col > 0) 1 else if (to.col - from.col < 0) -1 else 0
-//        val rowStep = if (to.row - from.row > 0) 1 else if (to.row - from.row < 0) -1 else 0
-//        var currentCol = from.col + colStep
-//        var currentRow = from.row + rowStep
-//        while (currentCol != to.col || currentRow != to.row) {
-//            if (piecesBox[Square(currentCol, currentRow)] != null) return false
-//            currentCol += colStep
-//            currentRow += rowStep
-//        }
-//        return true
-//    }
+    private fun isPathClear(from: Square, to: Square): Boolean {
+        val colStep = if (to.col - from.col > 0) 1 else if (to.col - from.col < 0) -1 else 0
+        val rowStep = if (to.row - from.row > 0) 1 else if (to.row - from.row < 0) -1 else 0
+        var currentCol = from.col + colStep
+        var currentRow = from.row + rowStep
+        while (currentCol != to.col || currentRow != to.row) {
+            if (piecesBox[Square(currentCol, currentRow)] != null) return false
+            currentCol += colStep
+            currentRow += rowStep
+        }
+        return true
+    }
 }
-
