@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "338446694974",
+    "project_id": "chessdb-50aec",
+    "storage_bucket": "chessdb-50aec.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:338446694974:android:0250a4bc36cae7f7c76f6f",
+        "android_client_info": {
+          "package_name": "com.goldenthumb.android.chess"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDIzwQ2dS94KVwWDQAnEAXcLEEYpBTocvs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:338446694974:android:d2840f0b2c64adafc76f6f",
+        "android_client_info": {
+          "package_name": "com.murach.myapplication"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDIzwQ2dS94KVwWDQAnEAXcLEEYpBTocvs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
