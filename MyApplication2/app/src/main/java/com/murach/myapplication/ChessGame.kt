@@ -85,13 +85,13 @@ object ChessGame {
             }
             if (movingPiece.chessman == Chessman.PAWN && (to.row == 0 || to.row == 7)) {
                 // Pawn promotion
-                if (movingPiece.chessman == Chessman.PAWN && (to.row == 0 || to.row == 7)) {
+
                     // Log pawn promotion
                     Log.d("ChessGame", "Pawn promotion at $to")
                     piecesBox.remove(to)
                     piecesBox[to] = ChessPiece(Player.WHITE,Chessman.QUEEN,R.drawable.queen_white)
-                    chessDelegate?.onPawnPromotion(to)
-                }
+
+
             }
             turn = if (turn == Player.WHITE) Player.BLACK else Player.WHITE
         }

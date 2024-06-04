@@ -115,7 +115,7 @@ class MainActivity : AppCompatActivity(), ChessDelegate {
         }
     }
 
-    override fun onPawnPromotion(square: Square) {
+ fun onPawnPromotion(square: Square) {
 //        val promotionPopup = layoutInflater.inflate(R.layout.promotion_popup, null)
 //        val dialog = AlertDialog.Builder(this)
 //            .setView(promotionPopup)
