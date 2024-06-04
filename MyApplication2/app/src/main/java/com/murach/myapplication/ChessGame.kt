@@ -2,12 +2,22 @@ package com.murach.myapplication
 
 
 import android.util.Log
-import androidx.appcompat.app.AlertDialog
+import android.view.Gravity
+import android.view.LayoutInflater
+import android.view.View
+import android.widget.Button
+import android.widget.LinearLayout
+import android.widget.PopupWindow
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat.getSystemService
 import com.murach.myapplication.enums.Chessman
+import com.murach.myapplication.enums.Player
+
 
 import kotlin.math.abs
 
 object ChessGame {
+//    val anchorView = findViewById<View>(R.id.white_promote)
     var piecesBox: MutableMap<Square, ChessPiece>
     var turn = Player.WHITE
     private val hasMoved: MutableSet<Square>
@@ -83,15 +93,25 @@ object ChessGame {
             } else if (movingPiece.chessman == Chessman.ROOK) {
                 hasRookMoved[from] = true
             }
-            if (movingPiece.chessman == Chessman.PAWN && (to.row == 0 || to.row == 7)) {
+            if (movingPiece.chessman == Chessman.PAWN && to.row == 7) {
                 // Pawn promotion
 
                     // Log pawn promotion
                     Log.d("ChessGame", "Pawn promotion at $to")
+
+//                showPopupWindow(anchorView, from)
                     piecesBox.remove(to)
                     piecesBox[to] = ChessPiece(Player.WHITE,Chessman.QUEEN,R.drawable.queen_white)
+            }
+            if (movingPiece.chessman == Chessman.PAWN && to.row == 0) {
+                // Pawn promotion
 
+                // Log pawn promotion
+                Log.d("ChessGame", "Pawn promotion at $to")
 
+//                showPopupWindow(anchorView, from)
+                piecesBox.remove(to)
+                piecesBox[to] = ChessPiece(Player.BLACK,Chessman.QUEEN,R.drawable.queen_black)
             }
             turn = if (turn == Player.WHITE) Player.BLACK else Player.WHITE
         }
@@ -316,6 +336,24 @@ object ChessGame {
         hasRookMoved[rookSquare] = true
 
         turn = if (turn == Player.WHITE) Player.BLACK else Player.WHITE
+    }
+    private fun showPopupWindow(anchorView: View, from: Square) {
+        val inflater = LayoutInflater.from(anchorView.context)
+        val popupView = inflater.inflate(R.layout.blackpromote, null)
+
+        val width = LinearLayout.LayoutParams.WRAP_CONTENT
+        val height = LinearLayout.LayoutParams.WRAP_CONTENT
+        val focusable = true // lets taps outside the popup also dismiss it
+        val popupWindow = PopupWindow(popupView, width, height, focusable)
+
+        // Show the popup window
+        popupWindow.showAtLocation(anchorView, Gravity.CENTER, 0, 0)
+
+        // Close the popup window on button click
+//        val buttonClose: Button = popupView.findViewById(R.id.button_close)
+//        buttonClose.setOnClickListener {
+//            popupWindow.dismiss()
+//        }
     }
 
 }

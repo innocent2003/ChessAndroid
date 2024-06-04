@@ -12,12 +12,12 @@ import android.widget.PopupWindow
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.murach.myapplication.enums.Chessman
+import com.murach.myapplication.enums.Player
 
 import java.io.PrintWriter
 import java.net.ServerSocket
 import java.net.Socket
 import java.util.*
-import java.util.concurrent.Executors
 
 const val TAG = "MainActivity"
 
@@ -107,12 +107,12 @@ class MainActivity : AppCompatActivity(), ChessDelegate {
         chessView.invalidate()
         checkGameStatus()
 
-        printWriter?.let {
-            val moveStr = "${from.col},${from.row},${to.col},${to.row}"
-            Executors.newSingleThreadExecutor().execute {
-                it.println(moveStr)
-            }
-        }
+//        printWriter?.let {
+//            val moveStr = "${from.col},${from.row},${to.col},${to.row}"
+//            Executors.newSingleThreadExecutor().execute {
+//                it.println(moveStr)
+//            }
+//        }
     }
 
  fun onPawnPromotion(square: Square) {
@@ -186,8 +186,10 @@ class MainActivity : AppCompatActivity(), ChessDelegate {
 
         // Close the popup window on button click
         val buttonClose: Button = popupView.findViewById(R.id.button_close)
-        buttonClose.setOnClickListener {
+        val queenBtn : Button = popupView.findViewById(R.id.promo_queen)
+        queenBtn.setOnClickListener{
             popupWindow.dismiss()
         }
+
     }
 }

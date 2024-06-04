@@ -29,10 +29,6 @@
         android:background="@drawable/queen_black"
         android:id="@+id/promo_queen"
         />
-    <Button
-        android:id="@+id/button_close"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Close" />
+
 
 </LinearLayout>
