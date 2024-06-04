@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:id="@+id/main_layout">
 
     <com.murach.myapplication.ChessView
         android:id="@+id/chess_view"
@@ -22,7 +23,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:text="reset_button"/>
+            android:text="@string/reset_button"/>
 
         <!--        <Button-->
         <!--            android:id="@+id/listen_button"-->
@@ -37,7 +38,11 @@
         <!--            android:layout_height="wrap_content"-->
         <!--            android:layout_margin="8dp"-->
         <!--            android:text="@string/connect_button"/>-->
-
+<Button
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:id="@+id/btnPromote"
+    android:text="Promote"/>
     </LinearLayout>
 
 </LinearLayout>

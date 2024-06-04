@@ -1,19 +1,21 @@
 package com.murach.myapplication
 
 
+import android.util.Log
+import androidx.appcompat.app.AlertDialog
+import com.murach.myapplication.enums.Chessman
 
-import com.murach.myapplication.R
-import com.murach.myapplication.Chessman
-import com.murach.myapplication.Player
 import kotlin.math.abs
 
 object ChessGame {
     var piecesBox: MutableMap<Square, ChessPiece>
     var turn = Player.WHITE
     private val hasMoved: MutableSet<Square>
-    private var hasKingMoved = mutableMapOf<Player, Boolean>(Player.WHITE to false, Player.BLACK to false)
+    private var hasKingMoved =
+        mutableMapOf<Player, Boolean>(Player.WHITE to false, Player.BLACK to false)
     private var hasRookMoved = mutableMapOf<Square, Boolean>()
     var chessDelegate: ChessDelegate? = null
+
 
     init {
         hasRookMoved[Square(0, 0)] = false
@@ -27,10 +29,6 @@ object ChessGame {
 
     fun reset() {
         piecesBox.clear()
-//        hasRookMoved[Square(0, 0)] = false
-//        hasRookMoved[Square(7, 0)] = false
-//        hasRookMoved[Square(0, 7)] = false
-//        hasRookMoved[Square(7, 7)] = false
         turn = Player.WHITE
 
         // Setup initial pieces configuration
@@ -73,8 +71,10 @@ object ChessGame {
 
         val movingPiece = pieceAt(from) ?: return
         if (movingPiece.chessman == Chessman.KING && canCastle(from, to)) {
+            Log.d("ChessGame", "Castling: $from to $to")
             performCastling(from, to)
         } else if (movingPiece.player == turn && canMove(from, to)) {
+            Log.d("ChessGame", "Moving ${movingPiece.chessman} from $from to $to")
             piecesBox[to] = movingPiece
             piecesBox.remove(from)
 
@@ -83,11 +83,15 @@ object ChessGame {
             } else if (movingPiece.chessman == Chessman.ROOK) {
                 hasRookMoved[from] = true
             }
-
             if (movingPiece.chessman == Chessman.PAWN && (to.row == 0 || to.row == 7)) {
                 // Pawn promotion
-
-                chessDelegate?.onPawnPromotion(to)
+                if (movingPiece.chessman == Chessman.PAWN && (to.row == 0 || to.row == 7)) {
+                    // Log pawn promotion
+                    Log.d("ChessGame", "Pawn promotion at $to")
+                    piecesBox.remove(to)
+                    piecesBox[to] = ChessPiece(Player.WHITE,Chessman.QUEEN,R.drawable.queen_white)
+                    chessDelegate?.onPawnPromotion(to)
+                }
             }
             turn = if (turn == Player.WHITE) Player.BLACK else Player.WHITE
         }
@@ -114,11 +118,8 @@ object ChessGame {
                     if (abs(deltaCol) == 1 && deltaRow == direction && pieceAtDestination != null) {
                         return true
                     }
-//                    if(to.row == 7 || to.row == 0){
-//                        showToast("Pawn has reached the last row!")
-//                        return true
-//                    }
                 }
+
                 Chessman.ROOK -> {
                     if (deltaCol == 0 || deltaRow == 0) {
                         if (isPathClear(from, to)) return true
@@ -127,19 +128,23 @@ object ChessGame {
                             from.row == to.row && isClearHorizontallyBetween(from, to)
 
                 }
+
                 Chessman.KNIGHT -> {
                     if (abs(deltaCol * deltaRow) == 2) return true
                 }
+
                 Chessman.BISHOP -> {
                     if (abs(deltaCol) == abs(deltaRow)) {
                         if (isPathClear(from, to)) return true
                     }
                 }
+
                 Chessman.QUEEN -> {
                     if (deltaCol == 0 || deltaRow == 0 || abs(deltaCol) == abs(deltaRow)) {
                         if (isPathClear(from, to)) return true
                     }
                 }
+
                 Chessman.KING -> {
                     val movingPiece = pieceAt(from) ?: return false
                     if (!hasKingMoved[movingPiece.player]!! && from.row == to.row && deltaCol == 2) {
@@ -164,15 +169,18 @@ object ChessGame {
         }
         return false
     }
+
     private fun isClearVerticallyBetween(from: Square, to: Square): Boolean {
         if (from.col != to.col) return false
-        val range = if (from.row < to.row) (from.row + 1 until to.row) else (to.row + 1 until from.row)
+        val range =
+            if (from.row < to.row) (from.row + 1 until to.row) else (to.row + 1 until from.row)
         return range.none { pieceAt(Square(from.col, it)) != null }
     }
 
     private fun isClearHorizontallyBetween(from: Square, to: Square): Boolean {
         if (from.row != to.row) return false
-        val range = if (from.col < to.col) (from.col + 1 until to.col) else (to.col + 1 until from.col)
+        val range =
+            if (from.col < to.col) (from.col + 1 until to.col) else (to.col + 1 until from.col)
         return range.none { pieceAt(Square(it, from.row)) != null }
     }
 
@@ -202,8 +210,6 @@ object ChessGame {
 
         return true
     }
-
-
 
 
     private fun isCheckAfterMove(player: Player, from: Square, to: Square): Boolean {
@@ -293,6 +299,7 @@ object ChessGame {
     private fun findKing(player: Player): Square? {
         return piecesBox.entries.find { it.value.player == player && it.value.chessman == Chessman.KING }?.key
     }
+
     private fun performCastling(from: Square, to: Square) {
         val direction = if (to.col > from.col) 1 else -1
         val newKingSquare = Square(from.col + 2 * direction, from.row)
@@ -310,11 +317,10 @@ object ChessGame {
 
         turn = if (turn == Player.WHITE) Player.BLACK else Player.WHITE
     }
-//    private fun showToast(message: String) {
-//        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
-//    }
-
-
 
 }
+
+
+
+
 

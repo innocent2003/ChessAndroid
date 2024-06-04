@@ -4,10 +4,14 @@ package com.murach.myapplication
 
 import android.os.Build
 import android.os.Bundle
+import android.view.Gravity
+import android.view.LayoutInflater
 import android.widget.Button
+import android.widget.LinearLayout
+import android.widget.PopupWindow
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import com.murach.myapplication.enums.Chessman
 
 import java.io.PrintWriter
 import java.net.ServerSocket
@@ -35,9 +39,13 @@ class MainActivity : AppCompatActivity(), ChessDelegate {
 
         chessView = findViewById(R.id.chess_view)
         resetButton = findViewById(R.id.reset_button)
+        val promoteBtn = findViewById<Button>(R.id.btnPromote)
 //        listenButton = findViewById(R.id.listen_button)
 //        connectButton = findViewById(R.id.connect_button)
         chessView.chessDelegate = this
+        promoteBtn.setOnClickListener{
+            showPopupWindow()
+        }
 
         resetButton.setOnClickListener {
             ChessGame.reset()
@@ -163,5 +171,23 @@ class MainActivity : AppCompatActivity(), ChessDelegate {
 
     private fun showToast(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
+    private  fun showPopupWindow() {
+        val inflater = getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        val popupView = inflater.inflate(R.layout.blackpromote, null)
+
+        val width = LinearLayout.LayoutParams.WRAP_CONTENT
+        val height = LinearLayout.LayoutParams.WRAP_CONTENT
+        val focusable = true // lets taps outside the popup also dismiss it
+        val popupWindow = PopupWindow(popupView, width, height, focusable)
+
+        // Show the popup window
+        popupWindow.showAtLocation(findViewById(R.id.main_layout), Gravity.CENTER, 0, 0)
+
+        // Close the popup window on button click
+        val buttonClose: Button = popupView.findViewById(R.id.button_close)
+        buttonClose.setOnClickListener {
+            popupWindow.dismiss()
+        }
     }
 }

@@ -1,4 +1,4 @@
-package com.murach.myapplication
+package com.murach.myapplication.enums
 
 enum class Chessman {
     KING,
