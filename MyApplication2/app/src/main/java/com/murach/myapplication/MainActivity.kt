@@ -36,6 +36,7 @@ class MainActivity : AppCompatActivity(), ChessDelegate {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        ChessGame.initialize(applicationContext)
 
         chessView = findViewById(R.id.chess_view)
         resetButton = findViewById(R.id.reset_button)
@@ -166,6 +167,7 @@ class MainActivity : AppCompatActivity(), ChessDelegate {
             ChessGame.isStalemate(Player.WHITE) || ChessGame.isStalemate(Player.BLACK) -> showToast("Stalemate!")
             ChessGame.isCheck(Player.WHITE) -> showToast("White is in check.")
             ChessGame.isCheck(Player.BLACK) -> showToast("Black is in check.")
+//            ChessGame.promotePawn()
         }
     }
 
