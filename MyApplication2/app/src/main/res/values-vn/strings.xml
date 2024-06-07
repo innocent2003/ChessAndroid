@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ChessMate</string>
+    <string name="multiplayer">Chơi nhiều người</string>
+    <string name="singleplayer">Chơi đơn</string>
+    <string name="match_history">Lịch sử trận đấu</string>
+    <string name="settings">Cài đặt</string>
+
+    <string name="Settings">Cài đặt</string>
+    <string name="Music">Âm nhạc</string>
+    <string name="Sound">Âm thanh</string>
+    <string name="Language">Ngôn ngữ</string>
+    <string name="Back">Trở lại</string>
+</resources>

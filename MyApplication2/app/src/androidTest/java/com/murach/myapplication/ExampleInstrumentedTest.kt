@@ -21,4 +21,9 @@ class ExampleInstrumentedTest {
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
         assertEquals("com.murach.myapplication", appContext.packageName)
     }
+
+    @Test
+    fun isValidMove() {
+
+    }
 }
