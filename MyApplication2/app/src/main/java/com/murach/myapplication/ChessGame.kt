@@ -87,16 +87,63 @@ object ChessGame {
     fun pieceAt(square: Square): ChessPiece? {
         return piecesBox[square]
     }
+    private fun performCastling(from: Square, to: Square) {
+        val direction = if (to.col > from.col) 1 else -1
+        val newKingSquare = Square(from.col + 2 * direction, from.row)
+        val newRookSquare = Square(from.col + direction, from.row)
+        val rookSquare = Square(if (direction == 1) 7 else 0, from.row)
+
+
+
+        piecesBox[newKingSquare] = piecesBox.remove(from)!!
+        piecesBox[newRookSquare] = piecesBox.remove(rookSquare)!!
+
+        hasMoved.add(newKingSquare)
+        hasMoved.add(newRookSquare)
+
+        hasKingMoved[piecesBox[newKingSquare]!!.player] = true
+        hasRookMoved[rookSquare] = true
+
+        turn = if (turn == Player.WHITE) Player.BLACK else Player.WHITE
+    }
+
+    private fun canCastle(from: Square, to: Square): Boolean {
+        val movingPiece = pieceAt(from) ?: return false
+        if (movingPiece.chessman != Chessman.KING) return false
+
+        // Check if the king or the rook has moved
+        if (hasKingMoved[movingPiece.player] == true) return false
+
+        val direction = if (to.col > from.col) 1 else -1
+        val rookCol = if (direction == 1) 7 else 0
+        val rookSquare = Square(rookCol, from.row)
+        val rookPiece = pieceAt(rookSquare) ?: return false
+        if (rookPiece.chessman != Chessman.ROOK || hasRookMoved[rookSquare] == true) return false
+
+        // Check if the path between the king and rook is clear
+        for (i in 1 until abs(to.col - from.col)) {
+            if (pieceAt(Square(from.col + i * direction, from.row)) != null) {
+                return false
+            }
+        }
+
+        // Check if the king is in check or passes through a square that is under attack
+        // For simplicity, this example does not implement the check detection function.
+        // You would need to implement a function `isSquareUnderAttack` to complete this part.
+
+        return true
+    }
 
 
     fun movePiece(from: Square, to: Square) {
 
         val movingPiece = pieceAt(from) ?: return
-        if (movingPiece.chessman == Chessman.KING && canCastle(from, to)) {
+        if (movingPiece.chessman == Chessman.KING && canCastle(from, to) && (!isCheck(Player.WHITE) || !isCheck(Player.BLACK)) ) {
             Log.d("ChessGame", "Castling: $from to $to")
             Toast.makeText(appContext, "Castling: $from to $to", Toast.LENGTH_SHORT).show()
             performCastling(from, to)
-        } else if (movingPiece.player == turn && canMove(from, to)) {
+        }
+        else if (movingPiece.player == turn && canMove(from, to)) {
             Log.d("ChessGame", "Moving ${movingPiece.chessman} from $from to $to")
             Toast.makeText(appContext, "Moving ${movingPiece.chessman} from $from to $to", Toast.LENGTH_SHORT).show()
             piecesBox[to] = movingPiece
@@ -233,32 +280,6 @@ object ChessGame {
         return range.none { pieceAt(Square(it, from.row)) != null }
     }
 
-    private fun canCastle(from: Square, to: Square): Boolean {
-        val movingPiece = pieceAt(from) ?: return false
-        if (movingPiece.chessman != Chessman.KING) return false
-
-        // Check if the king or the rook has moved
-        if (hasKingMoved[movingPiece.player] == true) return false
-
-        val direction = if (to.col > from.col) 1 else -1
-        val rookCol = if (direction == 1) 7 else 0
-        val rookSquare = Square(rookCol, from.row)
-        val rookPiece = pieceAt(rookSquare) ?: return false
-        if (rookPiece.chessman != Chessman.ROOK || hasRookMoved[rookSquare] == true) return false
-
-        // Check if the path between the king and rook is clear
-        for (i in 1 until abs(to.col - from.col)) {
-            if (pieceAt(Square(from.col + i * direction, from.row)) != null) {
-                return false
-            }
-        }
-
-        // Check if the king is in check or passes through a square that is under attack
-        // For simplicity, this example does not implement the check detection function.
-        // You would need to implement a function `isSquareUnderAttack` to complete this part.
-
-        return true
-    }
 
 
     private fun isCheckAfterMove(player: Player, from: Square, to: Square): Boolean {
@@ -349,23 +370,7 @@ object ChessGame {
         return piecesBox.entries.find { it.value.player == player && it.value.chessman == Chessman.KING }?.key
     }
 
-    private fun performCastling(from: Square, to: Square) {
-        val direction = if (to.col > from.col) 1 else -1
-        val newKingSquare = Square(from.col + 2 * direction, from.row)
-        val newRookSquare = Square(from.col + direction, from.row)
-        val rookSquare = Square(if (direction == 1) 7 else 0, from.row)
 
-        piecesBox[newKingSquare] = piecesBox.remove(from)!!
-        piecesBox[newRookSquare] = piecesBox.remove(rookSquare)!!
-
-        hasMoved.add(newKingSquare)
-        hasMoved.add(newRookSquare)
-
-        hasKingMoved[piecesBox[newKingSquare]!!.player] = true
-        hasRookMoved[rookSquare] = true
-
-        turn = if (turn == Player.WHITE) Player.BLACK else Player.WHITE
-    }
     private fun showPopupWindow(anchorView: View, from: Square) {
         val inflater = LayoutInflater.from(anchorView.context)
         val popupView = inflater.inflate(R.layout.blackpromote, null)
