@@ -7,6 +7,6 @@ import com.murach.myapplication.R
 class WelcomeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_welcome2)
+        setContentView(R.layout.main_menu)
     }
 }
