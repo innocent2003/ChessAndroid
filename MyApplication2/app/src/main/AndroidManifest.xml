@@ -16,7 +16,11 @@
             android:name=".AllActivity.WelcomeActivity"
             android:exported="false" />
         <activity
+<<<<<<< HEAD
             android:name=".WithOffline.MainActivity"
+=======
+            android:name=".AllActivity.MainMenu"
+>>>>>>> 31a3f269c56efb066c65f7d246ab66cc2b240276
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,6 +28,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".AllActivity.MatchHistory" />
+        <activity android:name=".AllActivity.ChessSettings" />
+        <activity android:name=".MainActivity" />
     </application>
 
 </manifest>

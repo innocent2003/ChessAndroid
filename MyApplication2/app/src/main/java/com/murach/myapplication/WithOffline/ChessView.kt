@@ -20,7 +20,7 @@ class ChessView @JvmOverloads constructor(
     private var originY = 200f
     private var cellSide = 130f
     private val lightColor = Color.parseColor("#EEEEEE")
-    private val darkColor = Color.parseColor("#BBBBBB")
+    private val darkColor = Color.parseColor("#B7C0D8")
 
     private val pieceBitmap = mutableMapOf<ChessPiece, Bitmap>()
     private var selectedSquare: Square? = null

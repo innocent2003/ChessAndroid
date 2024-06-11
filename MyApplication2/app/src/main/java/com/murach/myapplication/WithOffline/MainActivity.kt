@@ -6,7 +6,9 @@ import android.os.Build
 import android.os.Bundle
 import android.view.Gravity
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.Button
+import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.PopupWindow
 import android.widget.Toast
@@ -27,9 +29,10 @@ class MainActivity : AppCompatActivity(), ChessDelegate {
     private val socketPort: Int = 50000
     private val socketGuestPort: Int = 50001 // used for socket server on emulator
     private lateinit var chessView: ChessView
-    private lateinit var resetButton: Button
+    private lateinit var resetButton: ImageButton
     private lateinit var listenButton: Button
     private lateinit var connectButton: Button
+    private lateinit var settingsButton: ImageButton
     private var printWriter: PrintWriter? = null
     private var serverSocket: ServerSocket? = null
     private val isEmulator = Build.FINGERPRINT.contains("generic")
@@ -37,17 +40,17 @@ class MainActivity : AppCompatActivity(), ChessDelegate {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        ChessGame.initialize(applicationContext)
 
         chessView = findViewById(R.id.chess_view)
-        resetButton = findViewById(R.id.reset_button)
-        val promoteBtn = findViewById<Button>(R.id.btnPromote)
+        resetButton = findViewById<ImageButton>(R.id.IconReset)
+        settingsButton = findViewById<ImageButton>(R.id.IconSettings)
+        settingsButton.setOnClickListener {
+
+        }
 //        listenButton = findViewById(R.id.listen_button)
 //        connectButton = findViewById(R.id.connect_button)
         chessView.chessDelegate = this
-        promoteBtn.setOnClickListener{
-            showPopupWindow()
-        }
+
 
         resetButton.setOnClickListener {
             ChessGame.reset()
@@ -168,7 +171,6 @@ class MainActivity : AppCompatActivity(), ChessDelegate {
             ChessGame.isStalemate(Player.WHITE) || ChessGame.isStalemate(Player.BLACK) -> showToast("Stalemate!")
             ChessGame.isCheck(Player.WHITE) -> showToast("White is in check.")
             ChessGame.isCheck(Player.BLACK) -> showToast("Black is in check.")
-//            ChessGame.promotePawn()
         }
     }
 

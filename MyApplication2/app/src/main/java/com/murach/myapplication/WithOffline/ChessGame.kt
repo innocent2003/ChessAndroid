@@ -1,15 +1,19 @@
 package com.murach.myapplication.WithOffline
 
 
-import android.content.Context
 import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.PopupWindow
+<<<<<<< HEAD:MyApplication2/app/src/main/java/com/murach/myapplication/WithOffline/ChessGame.kt
 import android.widget.Toast
 import com.murach.myapplication.R
+=======
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat.getSystemService
+>>>>>>> 31a3f269c56efb066c65f7d246ab66cc2b240276:MyApplication2/app/src/main/java/com/murach/myapplication/ChessGame.kt
 import com.murach.myapplication.enums.Chessman
 import com.murach.myapplication.enums.Player
 
@@ -24,14 +28,7 @@ object ChessGame {
     private var hasKingMoved =
         mutableMapOf<Player, Boolean>(Player.WHITE to false, Player.BLACK to false)
     private var hasRookMoved = mutableMapOf<Square, Boolean>()
-    private lateinit var appContext: Context
-
-    // Other properties and functions
-
-    fun initialize(context: Context) {
-        appContext = context.applicationContext
-        // Other initialization code
-    }
+    var chessDelegate: ChessDelegate? = null
 
 
     init {
@@ -82,6 +79,7 @@ object ChessGame {
         piecesBox[Square(4, 7)] = ChessPiece(Player.BLACK, Chessman.KING, R.drawable.king_black)
     }
 
+
     fun pieceAt(square: Square): ChessPiece? {
         return piecesBox[square]
     }
@@ -131,6 +129,7 @@ object ChessGame {
     }
 
 
+
     fun movePiece(from: Square, to: Square) {
 
         val movingPiece = pieceAt(from) ?: return
@@ -138,12 +137,10 @@ object ChessGame {
 
         if (movingPiece.chessman == Chessman.KING && canCastle(from, to) && (!isCheck(Player.WHITE) || !isCheck(Player.BLACK)) ) {
             Log.d("ChessGame", "Castling: $from to $to")
-            Toast.makeText(appContext, "Castling: $from to $to", Toast.LENGTH_SHORT).show()
             performCastling(from, to)
         }
         else if (movingPiece.player == turn && canMove(from, to)) {
             Log.d("ChessGame", "Moving ${movingPiece.chessman} from $from to $to")
-            Toast.makeText(appContext, "Moving ${movingPiece.chessman} from $from to $to", Toast.LENGTH_SHORT).show()
             piecesBox[to] = movingPiece
             piecesBox.remove(from)
 
@@ -153,8 +150,11 @@ object ChessGame {
                 hasRookMoved[from] = true
             }
             if (movingPiece.chessman == Chessman.PAWN && to.row == 7) {
+                // Pawn promotion
+
+                    // Log pawn promotion
                     Log.d("ChessGame", "Pawn promotion at $to")
-                Toast.makeText(appContext, "Pawn promotion at $to", Toast.LENGTH_SHORT).show()
+
 //                showPopupWindow(anchorView, from)
                     piecesBox.remove(to)
                     piecesBox[to] = ChessPiece(Player.WHITE,Chessman.QUEEN,R.drawable.queen_white)
@@ -169,27 +169,9 @@ object ChessGame {
                 piecesBox.remove(to)
                 piecesBox[to] = ChessPiece(Player.BLACK,Chessman.QUEEN,R.drawable.queen_black)
             }
-            promotePawn(from, to)
-
             turn = if (turn == Player.WHITE) Player.BLACK else Player.WHITE
         }
     }
-    private fun promotePawn(from: Square, to: Square) {
-        val movingPiece = pieceAt(from)
-        if (movingPiece != null && movingPiece.chessman == Chessman.PAWN && (to.row == 0 || to.row == 7)) {
-            // Determine the player and the appropriate drawable for the queen
-            val player = movingPiece.player
-            val queenDrawable = if (player == Player.WHITE) R.drawable.queen_white else R.drawable.queen_black
-
-            // Log pawn promotion
-            Log.d("ChessGame", "Pawn promotion at $to")
-
-            // Promote the pawn to a queen
-            piecesBox[to] = ChessPiece(player, Chessman.QUEEN, queenDrawable)
-        }
-    }
-
-
 
     private fun canMove(from: Square, to: Square): Boolean {
         if (from == to) return false
