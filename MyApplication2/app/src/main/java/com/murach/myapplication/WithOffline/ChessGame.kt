@@ -7,13 +7,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.PopupWindow
-<<<<<<< HEAD:MyApplication2/app/src/main/java/com/murach/myapplication/WithOffline/ChessGame.kt
+
 import android.widget.Toast
 import com.murach.myapplication.R
-=======
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat.getSystemService
->>>>>>> 31a3f269c56efb066c65f7d246ab66cc2b240276:MyApplication2/app/src/main/java/com/murach/myapplication/ChessGame.kt
+
+
 import com.murach.myapplication.enums.Chessman
 import com.murach.myapplication.enums.Player
 
