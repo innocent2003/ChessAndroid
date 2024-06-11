@@ -1,4 +1,4 @@
-package com.murach.myapplication
+package com.murach.myapplication.WithOffline
 
 interface ChessDelegate {
     fun pieceAt(square: Square) : ChessPiece?

@@ -1,4 +1,4 @@
-package com.murach.myapplication
+package com.murach.myapplication.WithOffline
 
 
 
@@ -11,6 +11,7 @@ import android.widget.LinearLayout
 import android.widget.PopupWindow
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.murach.myapplication.R
 import com.murach.myapplication.enums.Chessman
 import com.murach.myapplication.enums.Player
 

@@ -1,4 +1,4 @@
-package com.murach.myapplication
+package com.murach.myapplication.WithOffline
 
 
 import android.content.Context
@@ -6,12 +6,10 @@ import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.PopupWindow
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat.getSystemService
+import com.murach.myapplication.R
 import com.murach.myapplication.enums.Chessman
 import com.murach.myapplication.enums.Player
 
@@ -93,8 +91,6 @@ object ChessGame {
         val newRookSquare = Square(from.col + direction, from.row)
         val rookSquare = Square(if (direction == 1) 7 else 0, from.row)
 
-
-
         piecesBox[newKingSquare] = piecesBox.remove(from)!!
         piecesBox[newRookSquare] = piecesBox.remove(rookSquare)!!
 
@@ -138,6 +134,8 @@ object ChessGame {
     fun movePiece(from: Square, to: Square) {
 
         val movingPiece = pieceAt(from) ?: return
+
+
         if (movingPiece.chessman == Chessman.KING && canCastle(from, to) && (!isCheck(Player.WHITE) || !isCheck(Player.BLACK)) ) {
             Log.d("ChessGame", "Castling: $from to $to")
             Toast.makeText(appContext, "Castling: $from to $to", Toast.LENGTH_SHORT).show()
