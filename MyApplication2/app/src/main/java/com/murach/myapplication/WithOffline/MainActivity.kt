@@ -14,6 +14,7 @@ import android.widget.PopupWindow
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.murach.myapplication.R
+import com.murach.myapplication.WithOffline.ChessGame.piecesBox
 import com.murach.myapplication.enums.Chessman
 import com.murach.myapplication.enums.Player
 
@@ -92,18 +93,18 @@ class MainActivity : AppCompatActivity(), ChessDelegate {
 //        }
     }
 
-    private fun receiveMove(socket: Socket) {
-        val scanner = Scanner(socket.getInputStream())
-        printWriter = PrintWriter(socket.getOutputStream(), true)
-        while (scanner.hasNextLine()) {
-            val move = scanner.nextLine().split(",").map { it.toInt() }
-            runOnUiThread {
-                ChessGame.movePiece(Square(move[0], move[1]), Square(move[2], move[3]))
-                chessView.invalidate()
-                checkGameStatus()
-            }
-        }
-    }
+//    private fun receiveMove(socket: Socket) {
+//        val scanner = Scanner(socket.getInputStream())
+//        printWriter = PrintWriter(socket.getOutputStream(), true)
+//        while (scanner.hasNextLine()) {
+//            val move = scanner.nextLine().split(",").map { it.toInt() }
+//            runOnUiThread {
+//                ChessGame.movePiece(Square(move[0], move[1]), Square(move[2], move[3]))
+//                chessView.invalidate()
+//                checkGameStatus()
+//            }
+//        }
+//    }
 
     override fun pieceAt(square: Square): ChessPiece? = ChessGame.pieceAt(square)
 
@@ -118,51 +119,18 @@ class MainActivity : AppCompatActivity(), ChessDelegate {
 //                it.println(moveStr)
 //            }
 //        }
+        ChessGame.movePiece(from, to)
+        chessView.invalidate()
+
+        val movingPiece = ChessGame.pieceAt(to)
+//        if (movingPiece != null && movingPiece.chessman == Chessman.PAWN && (to.row == 0 || to.row == 7)) {
+//            showPromotionPopup(to)
+//        }
+
+        checkGameStatus()
     }
 
- fun onPawnPromotion(square: Square) {
-//        val promotionPopup = layoutInflater.inflate(R.layout.promotion_popup, null)
-//        val dialog = AlertDialog.Builder(this)
-//            .setView(promotionPopup)
-//            .setCancelable(false)
-//            .create()
-//
-//        promotionPopup.findViewById<Button>(R.id.promo_queen).setOnClickListener {
-//            promotePawn(square, Chessman.QUEEN)
-//            dialog.dismiss()
-//        }
-//        promotionPopup.findViewById<Button>(R.id.promo_rook).setOnClickListener {
-//            promotePawn(square, Chessman.ROOK)
-//            dialog.dismiss()
-//        }
-//        promotionPopup.findViewById<Button>(R.id.promo_bishop).setOnClickListener {
-//            promotePawn(square, Chessman.BISHOP)
-//            dialog.dismiss()
-//        }
-//        promotionPopup.findViewById<Button>(R.id.promo_knight).setOnClickListener {
-//            promotePawn(square, Chessman.KNIGHT)
-//            dialog.dismiss()
-//        }
 
-//        dialog.show()
-    }
-    private fun promotePawn(square: Square, chessman: Chessman) {
-//        val player = ChessGame.pieceAt(square)?.player ?: return
-//        val drawableRes = when (chessman) {
-//            Chessman.QUEEN -> if (player == Player.WHITE) R.drawable.queen_white else R.drawable.queen_black
-//            Chessman.ROOK -> if (player == Player.WHITE) R.drawable.rook_white else R.drawable.rook_black
-//            Chessman.BISHOP -> if (player == Player.WHITE) R.drawable.bishop_white else R.drawable.bishop_black
-//            Chessman.KNIGHT -> if (player == Player.WHITE) R.drawable.knight_white else R.drawable.knight_black
-//            else -> return
-//        }
-//
-//        ChessGame.piecesBox[square] = ChessPiece(player, chessman, drawableRes)
-//        ChessGame.turn = if (ChessGame.turn == Player.WHITE) Player.BLACK else Player.WHITE
-//        chessView.invalidate()
-//        checkGameStatus()
-
-
-    }
 
     private fun checkGameStatus() {
         when {
@@ -177,24 +145,45 @@ class MainActivity : AppCompatActivity(), ChessDelegate {
     private fun showToast(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
-    private  fun showPopupWindow() {
-        val inflater = getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        val popupView = inflater.inflate(R.layout.blackpromote, null)
 
-        val width = LinearLayout.LayoutParams.WRAP_CONTENT
-        val height = LinearLayout.LayoutParams.WRAP_CONTENT
-        val focusable = true // lets taps outside the popup also dismiss it
-        val popupWindow = PopupWindow(popupView, width, height, focusable)
+//    private fun showPromotionPopup(square: Square) {
+//        val inflater = getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
+//        val popupView = inflater.inflate(R.layout.popup_promotion, null)
+//
+//        val width = LinearLayout.LayoutParams.WRAP_CONTENT
+//        val height = LinearLayout.LayoutParams.WRAP_CONTENT
+//        val focusable = true // lets taps outside the popup also dismiss it
+//        val popupWindow = PopupWindow(popupView, width, height, focusable)
+//
+//        // Show the popup window
+//        popupWindow.showAtLocation(findViewById(R.id.main_layout), Gravity.CENTER, 0, 0)
+//
+//        val queenBtn: Button = popupView.findViewById(R.id.promo_queen)
+//        val rookBtn: Button = popupView.findViewById(R.id.promo_rook)
+//        val bishopBtn: Button = popupView.findViewById(R.id.promo_bishop)
+//        val knightBtn: Button = popupView.findViewById(R.id.promo_knight)
+//
+//        val onPieceSelected: (Chessman) -> Unit = { selectedPiece ->
+//            ChessGame.promotePawn(ChessGame.pieceAt(square)!!, square, ChessGame.piecesBox) {
+//                piecesBox[square] = ChessPiece(ChessGame.pieceAt(square)!!.player, selectedPiece, getDrawableForChessman(selectedPiece, ChessGame.pieceAt(square)!!.player))
+//                chessView.invalidate()
+//                popupWindow.dismiss()
+//            }
+//        }
+//
+//        queenBtn.setOnClickListener { onPieceSelected(Chessman.QUEEN) }
+//        rookBtn.setOnClickListener { onPieceSelected(Chessman.ROOK) }
+//        bishopBtn.setOnClickListener { onPieceSelected(Chessman.BISHOP) }
+//        knightBtn.setOnClickListener { onPieceSelected(Chessman.KNIGHT) }
+//    }
 
-        // Show the popup window
-        popupWindow.showAtLocation(findViewById(R.id.main_layout), Gravity.CENTER, 0, 0)
-
-        // Close the popup window on button click
-        val buttonClose: Button = popupView.findViewById(R.id.button_close)
-        val queenBtn : Button = popupView.findViewById(R.id.promo_queen)
-        queenBtn.setOnClickListener{
-            popupWindow.dismiss()
+    private fun getDrawableForChessman(chessman: Chessman, player: Player): Int {
+        return when (chessman) {
+            Chessman.QUEEN -> if (player == Player.WHITE) R.drawable.queen_white else R.drawable.queen_black
+            Chessman.ROOK -> if (player == Player.WHITE) R.drawable.rook_white else R.drawable.rook_black
+            Chessman.BISHOP -> if (player == Player.WHITE) R.drawable.bishop_white else R.drawable.bishop_black
+            Chessman.KNIGHT -> if (player == Player.WHITE) R.drawable.knight_white else R.drawable.knight_black
+            else -> throw IllegalArgumentException("Invalid chessman for promotion")
         }
-
     }
 }

@@ -1,6 +1,4 @@
-package com.murach.myapplication.WithOffline
-
-
+package com.murach.myapplication.WithWorld
 
 import android.content.Context
 import android.graphics.*
@@ -8,9 +6,12 @@ import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
 import com.murach.myapplication.R
+import com.murach.myapplication.WithOffline.ChessDelegate
+import com.murach.myapplication.WithOffline.ChessPiece
+import com.murach.myapplication.WithOffline.Square
 import kotlin.math.min
 
-class ChessView @JvmOverloads constructor(
+class ChessView constructor(
     context: Context?, attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
 ) : View(context, attrs, defStyleAttr) {
@@ -22,7 +23,7 @@ class ChessView @JvmOverloads constructor(
     private val lightColor = Color.parseColor("#EEEEEE")
     private val darkColor = Color.parseColor("#B7C0D8")
 
-//    private val pieceBitmap = mutableMapOf<ChessPiece, Bitmap>()
+
     private var selectedSquare: Square? = null
 
     private var onSquareClickListener: ((Square, Square) -> Unit)? = null

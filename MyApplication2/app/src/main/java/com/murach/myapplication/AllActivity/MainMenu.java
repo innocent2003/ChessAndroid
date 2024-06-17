@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.murach.myapplication.WithOffline.MainActivity;
 import com.murach.myapplication.R;
+import com.murach.myapplication.WithWorld.WorldGamePlayActivity;
 
 public class MainMenu extends AppCompatActivity implements View.OnClickListener {
     Button play_offline_button, play_online_button, match_history_button, settings_button;
@@ -21,12 +22,14 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
         play_offline_button.setOnClickListener(this);
         match_history_button.setOnClickListener(this);
         settings_button.setOnClickListener(this);
+        play_online_button.setOnClickListener(this);
     }
 
     private void getButton() {
         play_offline_button = findViewById(R.id.play_offline_button);
         match_history_button = findViewById(R.id.match_history_button);
         settings_button = findViewById(R.id.settings_button);
+        play_online_button = findViewById(R.id.play_online_button);
     }
 
     @Override
@@ -45,6 +48,10 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
 
         if (id == R.id.settings_button) {
             Intent intent = new Intent(this, ChessSettings.class);
+            startActivity(intent);
+        }
+        if (id == R.id.play_online_button) {
+            Intent intent = new Intent(this, WorldGamePlayActivity.class);
             startActivity(intent);
         }
     }

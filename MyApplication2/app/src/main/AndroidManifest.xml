@@ -13,12 +13,13 @@
         android:theme="@style/Theme.MyApplication"
         tools:targetApi="31">
         <activity
+            android:name=".WithWorld.WorldGamePlayActivity"
+            android:exported="false" />
+        <activity
             android:name=".AllActivity.WelcomeActivity"
             android:exported="false" />
         <activity
-
             android:name=".AllActivity.MainMenu"
-
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -1,4 +1,5 @@
-package com.murach.myapplication.WithOffline
+package com.murach.myapplication.WithWorld
+
 
 
 import android.icu.text.Transliterator
@@ -11,6 +12,9 @@ import android.widget.PopupWindow
 
 import android.widget.Toast
 import com.murach.myapplication.R
+import com.murach.myapplication.WithOffline.ChessDelegate
+import com.murach.myapplication.WithOffline.ChessPiece
+import com.murach.myapplication.WithOffline.Square
 
 
 import com.murach.myapplication.enums.Chessman
@@ -20,7 +24,7 @@ import com.murach.myapplication.enums.Player
 import kotlin.math.abs
 
 object ChessGame {
-//    val anchorView = findViewById<View>(R.id.white_promote)
+    //    val anchorView = findViewById<View>(R.id.white_promote)
     var piecesBox: MutableMap<Square, ChessPiece>
     var turn = Player.WHITE
     private val hasMoved: MutableSet<Square>
@@ -87,10 +91,6 @@ object ChessGame {
     fun pieceAt(square: Square): ChessPiece? {
         return piecesBox[square]
     }
-    private fun anotherWayToCastle(from: Square, to: Square){
-
-
-    }
     private fun performCastling(from: Square, to: Square) {
         val direction = if (to.col > from.col) 1 else -1
         val newKingSquare = Square(from.col + 2 * direction, from.row)
@@ -123,19 +123,19 @@ object ChessGame {
         if (rookPiece.chessman != Chessman.ROOK || hasRookMoved[rookSquare] == true) return false
 
         // Check if the path between the king and rook is clear
-        for (i in 1 until abs(to.col - from.col)) {
-            if (pieceAt(Square(from.col + i * direction, from.row)) != null) {
-                return false
-            }
+//        for (i in 1 until abs(to.col - from.col)) {
+//            if (pieceAt(Square(from.col + i * direction, from.row)) != null) {
+//                return false
+//            }
+//        }
+        for(i in 1 until 4){
+            if(pieceAt(Square(0,i)) != null) return false;
+            if(pieceAt(Square(7,i)) != null) return false;
         }
-//        for(i in 1 until 4){
-//            if(pieceAt(Square(0,i)) != null) return false;
-//            if(pieceAt(Square(7,i)) != null) return false;
-//        }
-//        for(j in 5 until 7){
-//            if(pieceAt(Square(0,j)) != null) return false;
-//            if(pieceAt(Square(7,j)) != null) return false;
-//        }
+        for(j in 5 until 7){
+            if(pieceAt(Square(0,j)) != null) return false;
+            if(pieceAt(Square(7,j)) != null) return false;
+        }
 
         // Check if the king is in check or passes through a square that is under attack
         // For simplicity, this example does not implement the check detection function.
@@ -151,27 +151,9 @@ object ChessGame {
         val movingPiece = pieceAt(from) ?: return
 
 
-//        if (movingPiece.chessman == Chessman.KING && canCastle(from, to) && (!isCheck(Player.WHITE) || !isCheck(Player.BLACK)) ) {
-//            Log.d("ChessGame", "Castling: $from to $to")
-//            performCastling(from, to)
-//        }
-        if(movingPiece.chessman == Chessman.KING && to.col == 2 && to.row == 0 && movingPiece.player == turn && pieceAt(Square(1,0)) == null && pieceAt(Square(2,0)) == null && pieceAt(Square(3,0)) == null && !isCheck(Player.WHITE) && hasKingMoved[movingPiece.player] == false ){
-
-                    piecesBox.remove(Square(0,0))
-                    piecesBox.remove(from)
-                    piecesBox[to] = ChessPiece(Player.WHITE,Chessman.KING,R.drawable.king_white)
-                    piecesBox[Square(3,0)] = ChessPiece(Player.WHITE,Chessman.ROOK,R.drawable.rook_white)
-                    turn = if (turn == Player.WHITE) Player.BLACK else Player.WHITE
-                    Log.d("ChessGame", "Castling: $from to $to")
-        }
-        if(movingPiece.chessman == Chessman.KING && to.col == 6 && to.row == 0 && movingPiece.player == turn && pieceAt(Square(5,0)) == null && pieceAt(Square(6,0)) == null && !isCheck(Player.WHITE)  ){
-
-            piecesBox.remove(Square(7,0))
-            piecesBox.remove(from)
-            piecesBox[to] = ChessPiece(Player.WHITE,Chessman.KING,R.drawable.king_white)
-            piecesBox[Square(5,0)] = ChessPiece(Player.WHITE,Chessman.ROOK,R.drawable.rook_white)
-            turn = if (turn == Player.WHITE) Player.BLACK else Player.WHITE
+        if (movingPiece.chessman == Chessman.KING && canCastle(from, to) && (!isCheck(Player.WHITE) || !isCheck(Player.BLACK)) ) {
             Log.d("ChessGame", "Castling: $from to $to")
+            performCastling(from, to)
         }
         else if (movingPiece.player == turn && canMove(from, to)) {
             Log.d("ChessGame", "Moving ${movingPiece.chessman} from $from to $to")
@@ -183,16 +165,15 @@ object ChessGame {
             } else if (movingPiece.chessman == Chessman.ROOK) {
                 hasRookMoved[from] = true
             }
-
             if (movingPiece.chessman == Chessman.PAWN && to.row == 7) {
                 // Pawn promotion
 
-                    // Log pawn promotion
-                    Log.d("ChessGame", "Pawn promotion at $to")
+                // Log pawn promotion
+                Log.d("ChessGame", "Pawn promotion at $to")
 
 //                showPopupWindow(anchorView, from)
-                    piecesBox.remove(to)
-                    piecesBox[to] = ChessPiece(Player.WHITE,Chessman.QUEEN,R.drawable.queen_white)
+                piecesBox.remove(to)
+                piecesBox[to] = ChessPiece(Player.WHITE,Chessman.QUEEN,R.drawable.queen_white)
             }
             if (movingPiece.chessman == Chessman.PAWN && to.row == 0) {
                 // Pawn promotion
