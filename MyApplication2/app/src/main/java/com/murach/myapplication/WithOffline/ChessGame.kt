@@ -1,6 +1,7 @@
 package com.murach.myapplication.WithOffline
 
 
+import android.content.Context
 import android.icu.text.Transliterator
 import android.util.Log
 import android.view.Gravity
@@ -27,6 +28,14 @@ object ChessGame {
     private var hasKingMoved =
         mutableMapOf<Player, Boolean>(Player.WHITE to false, Player.BLACK to false)
     private var hasRookMoved = mutableMapOf<Square, Boolean>()
+    private lateinit var appContext: Context
+
+    // Other properties and functions
+
+    fun initialize(context: Context) {
+        appContext = context.applicationContext
+        // Other initialization code
+    }
     var chessDelegate: ChessDelegate? = null
 
 
@@ -163,6 +172,7 @@ object ChessGame {
                     piecesBox[Square(3,0)] = ChessPiece(Player.WHITE,Chessman.ROOK,R.drawable.rook_white)
                     turn = if (turn == Player.WHITE) Player.BLACK else Player.WHITE
                     Log.d("ChessGame", "Castling: $from to $to")
+            Toast.makeText(appContext, "Castling: $from to $to", Toast.LENGTH_SHORT).show()
         }
         if(movingPiece.chessman == Chessman.KING && to.col == 6 && to.row == 0 && movingPiece.player == Player.WHITE && pieceAt(Square(5,0)) == null && pieceAt(Square(6,0)) == null && !isCheck(Player.WHITE)  ){
 
@@ -172,6 +182,7 @@ object ChessGame {
             piecesBox[Square(5,0)] = ChessPiece(Player.WHITE,Chessman.ROOK,R.drawable.rook_white)
             turn = if (turn == Player.WHITE) Player.BLACK else Player.WHITE
             Log.d("ChessGame", "Castling: $from to $to")
+            Toast.makeText(appContext, "Castling: $from to $to", Toast.LENGTH_SHORT).show()
         }
         if(movingPiece.chessman == Chessman.KING && to.col == 2 && to.row == 7 && movingPiece.player == Player.BLACK && pieceAt(Square(1,7)) == null && pieceAt(Square(2,7)) == null && pieceAt(Square(3,7)) == null && !isCheck(Player.BLACK) && hasKingMoved[movingPiece.player] == false ){
 
@@ -181,6 +192,7 @@ object ChessGame {
             piecesBox[Square(3,7)] = ChessPiece(Player.BLACK,Chessman.ROOK,R.drawable.rook_black)
             turn = if (turn == Player.WHITE) Player.BLACK else Player.WHITE
             Log.d("ChessGame", "Castling: $from to $to")
+            Toast.makeText(appContext, "Castling: $from to $to", Toast.LENGTH_SHORT).show()
         }
         if(movingPiece.chessman == Chessman.KING && to.col == 6 && to.row == 7 && movingPiece.player == Player.BLACK && pieceAt(Square(5,7)) == null && pieceAt(Square(6,7)) == null && !isCheck(Player.BLACK)  ){
 
@@ -190,9 +202,11 @@ object ChessGame {
             piecesBox[Square(5,7)] = ChessPiece(Player.BLACK,Chessman.ROOK,R.drawable.rook_black)
             turn = if (turn == Player.WHITE) Player.BLACK else Player.WHITE
             Log.d("ChessGame", "Castling: $from to $to")
+            Toast.makeText(appContext, "Castling: $from to $to", Toast.LENGTH_SHORT).show()
         }
         else if (movingPiece.player == turn && canMove(from, to)) {
             Log.d("ChessGame", "Moving ${movingPiece.chessman} from $from to $to")
+            Toast.makeText(appContext, "Moving ${movingPiece.chessman} from $from to $to", Toast.LENGTH_SHORT).show()
             piecesBox[to] = movingPiece
             piecesBox.remove(from)
 
@@ -212,16 +226,16 @@ object ChessGame {
                     piecesBox.remove(to)
                     piecesBox[to] = ChessPiece(Player.WHITE,Chessman.QUEEN,R.drawable.queen_white)
             }
-            if (movingPiece.chessman == Chessman.PAWN && to.row == 0) {
-                // Pawn promotion
-
-                // Log pawn promotion
-                Log.d("ChessGame", "Pawn promotion at $to")
-
-//                showPopupWindow(anchorView, from)
-                piecesBox.remove(to)
-                piecesBox[to] = ChessPiece(Player.BLACK,Chessman.QUEEN,R.drawable.queen_black)
-            }
+//            if (movingPiece.chessman == Chessman.PAWN && to.row == 0) {
+//                // Pawn promotion
+//
+//                // Log pawn promotion
+//                Log.d("ChessGame", "Pawn promotion at $to")
+//
+////                showPopupWindow(anchorView, from)
+//                piecesBox.remove(to)
+//                piecesBox[to] = ChessPiece(Player.BLACK,Chessman.QUEEN,R.drawable.queen_black)
+//            }
             promotePawn(movingPiece, to, piecesBox)
 //            promotePawn(movingPiece, to, piecesBox, )
 //            if (movingPiece.chessman == Chessman.PAWN && (to.row == 0 || to.row == 7)) {
@@ -241,6 +255,7 @@ object ChessGame {
 
             // Log pawn promotion
             Log.d("ChessGame", "Pawn promotion at $to")
+            Toast.makeText(appContext, "Pawn promotion at $to", Toast.LENGTH_SHORT).show()
 
             // Remove the pawn from the board and replace it with a queen
             piecesBox.remove(to)

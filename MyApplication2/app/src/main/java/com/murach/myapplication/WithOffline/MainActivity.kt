@@ -41,6 +41,7 @@ class MainActivity : AppCompatActivity(), ChessDelegate {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        ChessGame.initialize(applicationContext)
 
         chessView = findViewById(R.id.chess_view)
         resetButton = findViewById<ImageButton>(R.id.IconReset)
@@ -123,9 +124,9 @@ class MainActivity : AppCompatActivity(), ChessDelegate {
         chessView.invalidate()
 
         val movingPiece = ChessGame.pieceAt(to)
-//        if (movingPiece != null && movingPiece.chessman == Chessman.PAWN && (to.row == 0 || to.row == 7)) {
-//            showPromotionPopup(to)
-//        }
+        if (movingPiece != null && movingPiece.chessman == Chessman.PAWN && (to.row == 0 || to.row == 7)) {
+           Toast.makeText(this,"Promotion success",Toast.LENGTH_LONG);
+        }
 
         checkGameStatus()
     }

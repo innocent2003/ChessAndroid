@@ -91,38 +91,6 @@
             android:textStyle="bold" />
     </LinearLayout>
 
-    <!--    <LinearLayout-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:gravity="center"-->
-    <!--        android:orientation="horizontal">-->
-
-    <!--        <Button-->
-    <!--            android:id="@+id/reset_button"-->
-    <!--            android:layout_width="wrap_content"-->
-    <!--            android:layout_height="wrap_content"-->
-    <!--            android:layout_margin="8dp"-->
-    <!--            android:text="@string/reset_button" />-->
-
-    <!--        &lt;!&ndash;        <Button&ndash;&gt;-->
-    <!--        &lt;!&ndash;            android:id="@+id/listen_button"&ndash;&gt;-->
-    <!--        &lt;!&ndash;            android:layout_width="wrap_content"&ndash;&gt;-->
-    <!--        &lt;!&ndash;            android:layout_height="wrap_content"&ndash;&gt;-->
-    <!--        &lt;!&ndash;            android:layout_margin="8dp"&ndash;&gt;-->
-    <!--        &lt;!&ndash;            android:text="@string/listen_button"/>&ndash;&gt;-->
-
-    <!--        &lt;!&ndash;        <Button&ndash;&gt;-->
-    <!--        &lt;!&ndash;            android:id="@+id/connect_button"&ndash;&gt;-->
-    <!--        &lt;!&ndash;            android:layout_width="wrap_content"&ndash;&gt;-->
-    <!--        &lt;!&ndash;            android:layout_height="wrap_content"&ndash;&gt;-->
-    <!--        &lt;!&ndash;            android:layout_margin="8dp"&ndash;&gt;-->
-    <!--        &lt;!&ndash;            android:text="@string/connect_button"/>&ndash;&gt;-->
-    <!--<Button-->
-    <!--    android:layout_width="wrap_content"-->
-    <!--    android:layout_height="wrap_content"-->
-    <!--    android:id="@+id/btnPromote"-->
-    <!--    android:text="Promote"/>-->
-    <!--    </LinearLayout>-->
 
 </LinearLayout>
 

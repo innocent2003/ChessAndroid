@@ -6,9 +6,8 @@ import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
 import com.murach.myapplication.R
-import com.murach.myapplication.WithOffline.ChessDelegate
-import com.murach.myapplication.WithOffline.ChessPiece
-import com.murach.myapplication.WithOffline.Square
+
+
 import kotlin.math.min
 
 class ChessView constructor(
