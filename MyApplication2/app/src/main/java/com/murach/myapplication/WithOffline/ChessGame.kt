@@ -155,7 +155,7 @@ object ChessGame {
 //            Log.d("ChessGame", "Castling: $from to $to")
 //            performCastling(from, to)
 //        }
-        if(movingPiece.chessman == Chessman.KING && to.col == 2 && to.row == 0 && movingPiece.player == turn && pieceAt(Square(1,0)) == null && pieceAt(Square(2,0)) == null && pieceAt(Square(3,0)) == null && !isCheck(Player.WHITE) && hasKingMoved[movingPiece.player] == false ){
+        if(movingPiece.chessman == Chessman.KING && to.col == 2 && to.row == 0 && movingPiece.player == Player.WHITE && pieceAt(Square(1,0)) == null && pieceAt(Square(2,0)) == null && pieceAt(Square(3,0)) == null && !isCheck(Player.WHITE) && hasKingMoved[movingPiece.player] == false ){
 
                     piecesBox.remove(Square(0,0))
                     piecesBox.remove(from)
@@ -164,12 +164,30 @@ object ChessGame {
                     turn = if (turn == Player.WHITE) Player.BLACK else Player.WHITE
                     Log.d("ChessGame", "Castling: $from to $to")
         }
-        if(movingPiece.chessman == Chessman.KING && to.col == 6 && to.row == 0 && movingPiece.player == turn && pieceAt(Square(5,0)) == null && pieceAt(Square(6,0)) == null && !isCheck(Player.WHITE)  ){
+        if(movingPiece.chessman == Chessman.KING && to.col == 6 && to.row == 0 && movingPiece.player == Player.WHITE && pieceAt(Square(5,0)) == null && pieceAt(Square(6,0)) == null && !isCheck(Player.WHITE)  ){
 
             piecesBox.remove(Square(7,0))
             piecesBox.remove(from)
             piecesBox[to] = ChessPiece(Player.WHITE,Chessman.KING,R.drawable.king_white)
             piecesBox[Square(5,0)] = ChessPiece(Player.WHITE,Chessman.ROOK,R.drawable.rook_white)
+            turn = if (turn == Player.WHITE) Player.BLACK else Player.WHITE
+            Log.d("ChessGame", "Castling: $from to $to")
+        }
+        if(movingPiece.chessman == Chessman.KING && to.col == 2 && to.row == 7 && movingPiece.player == Player.BLACK && pieceAt(Square(1,7)) == null && pieceAt(Square(2,7)) == null && pieceAt(Square(3,7)) == null && !isCheck(Player.BLACK) && hasKingMoved[movingPiece.player] == false ){
+
+            piecesBox.remove(Square(0,7))
+            piecesBox.remove(from)
+            piecesBox[to] = ChessPiece(Player.BLACK,Chessman.KING,R.drawable.king_black)
+            piecesBox[Square(3,7)] = ChessPiece(Player.BLACK,Chessman.ROOK,R.drawable.rook_black)
+            turn = if (turn == Player.WHITE) Player.BLACK else Player.WHITE
+            Log.d("ChessGame", "Castling: $from to $to")
+        }
+        if(movingPiece.chessman == Chessman.KING && to.col == 6 && to.row == 7 && movingPiece.player == Player.BLACK && pieceAt(Square(5,7)) == null && pieceAt(Square(6,7)) == null && !isCheck(Player.BLACK)  ){
+
+            piecesBox.remove(Square(7,7))
+            piecesBox.remove(from)
+            piecesBox[to] = ChessPiece(Player.BLACK,Chessman.KING,R.drawable.king_black)
+            piecesBox[Square(5,7)] = ChessPiece(Player.BLACK,Chessman.ROOK,R.drawable.rook_black)
             turn = if (turn == Player.WHITE) Player.BLACK else Player.WHITE
             Log.d("ChessGame", "Castling: $from to $to")
         }
