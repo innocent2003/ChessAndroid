@@ -6,7 +6,8 @@
     android:orientation="vertical"
     android:gravity="center"
     tools:context=".WithWorld.WorldGamePlayActivity">
-    <com.murach.myapplication.WithWorld.ChessView
+    <com.murach.myapplication.WithOffline.ChessView
+
 
         android:id="@+id/chess_view"
         android:layout_width="wrap_content"

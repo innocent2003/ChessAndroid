@@ -24,8 +24,8 @@ class WorldGamePlayActivity : AppCompatActivity() ,
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_world_game_play)
 
-        chessView = findViewById(R.id.chess_view)
-        chessView.chessDelegate = this
+//        chessView = findViewById(R.id.chess_view)
+//        chessView.chessDelegate = this
 }
 
     override fun pieceAt(square: Square): ChessPiece? {

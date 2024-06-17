@@ -1,27 +1,23 @@
 package com.murach.myapplication.WithOffline
 
 
-
 import android.os.Build
 import android.os.Bundle
-import android.view.Gravity
-import android.view.LayoutInflater
-import android.view.View
 import android.widget.Button
 import android.widget.ImageButton
-import android.widget.LinearLayout
-import android.widget.PopupWindow
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.murach.myapplication.R
-import com.murach.myapplication.WithOffline.ChessGame.piecesBox
+import com.murach.myapplication.WithOffline.ChessDelegate
+import com.murach.myapplication.WithOffline.ChessGame
+import com.murach.myapplication.WithOffline.ChessPiece
+import com.murach.myapplication.WithOffline.ChessView
+import com.murach.myapplication.WithOffline.Square
 import com.murach.myapplication.enums.Chessman
 import com.murach.myapplication.enums.Player
 
 import java.io.PrintWriter
 import java.net.ServerSocket
-import java.net.Socket
-import java.util.*
 
 const val TAG = "MainActivity"
 
@@ -125,7 +121,7 @@ class MainActivity : AppCompatActivity(), ChessDelegate {
 
         val movingPiece = ChessGame.pieceAt(to)
         if (movingPiece != null && movingPiece.chessman == Chessman.PAWN && (to.row == 0 || to.row == 7)) {
-           Toast.makeText(this,"Promotion success",Toast.LENGTH_LONG);
+            Toast.makeText(this,"Promotion success",Toast.LENGTH_LONG);
         }
 
         checkGameStatus()
