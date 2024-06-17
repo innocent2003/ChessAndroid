@@ -1,15 +1,22 @@
-package com.murach.myapplication
+package com.murach.myapplication.WithWorld
 
 
+
+import android.icu.text.Transliterator
 import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.PopupWindow
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat.getSystemService
+
+import android.widget.Toast
+import com.murach.myapplication.R
+import com.murach.myapplication.WithOffline.ChessDelegate
+import com.murach.myapplication.WithOffline.ChessPiece
+import com.murach.myapplication.WithOffline.Square
+
+
 import com.murach.myapplication.enums.Chessman
 import com.murach.myapplication.enums.Player
 
@@ -17,7 +24,7 @@ import com.murach.myapplication.enums.Player
 import kotlin.math.abs
 
 object ChessGame {
-//    val anchorView = findViewById<View>(R.id.white_promote)
+    //    val anchorView = findViewById<View>(R.id.white_promote)
     var piecesBox: MutableMap<Square, ChessPiece>
     var turn = Player.WHITE
     private val hasMoved: MutableSet<Square>
@@ -42,7 +49,12 @@ object ChessGame {
         turn = Player.WHITE
 
         // Setup initial pieces configuration
-        // Add pawns
+//check stalemate
+
+//        piecesBox[Square(2,3)] = ChessPiece(Player.WHITE, Chessman.QUEEN,R.drawable.queen_white)
+//        piecesBox[Square(0,0)] = ChessPiece(Player.BLACK,Chessman.KING,R.drawable.king_black);
+//        piecesBox[Square(7,7)] = ChessPiece(Player.WHITE,Chessman.KING,R.drawable.king_white);
+
         for (i in 0 until 8) {
             piecesBox[Square(i, 1)] = ChessPiece(Player.WHITE, Chessman.PAWN, R.drawable.pawn_white)
             piecesBox[Square(i, 6)] = ChessPiece(Player.BLACK, Chessman.PAWN, R.drawable.pawn_black)
@@ -85,8 +97,6 @@ object ChessGame {
         val newRookSquare = Square(from.col + direction, from.row)
         val rookSquare = Square(if (direction == 1) 7 else 0, from.row)
 
-
-
         piecesBox[newKingSquare] = piecesBox.remove(from)!!
         piecesBox[newRookSquare] = piecesBox.remove(rookSquare)!!
 
@@ -113,10 +123,18 @@ object ChessGame {
         if (rookPiece.chessman != Chessman.ROOK || hasRookMoved[rookSquare] == true) return false
 
         // Check if the path between the king and rook is clear
-        for (i in 1 until abs(to.col - from.col)) {
-            if (pieceAt(Square(from.col + i * direction, from.row)) != null) {
-                return false
-            }
+//        for (i in 1 until abs(to.col - from.col)) {
+//            if (pieceAt(Square(from.col + i * direction, from.row)) != null) {
+//                return false
+//            }
+//        }
+        for(i in 1 until 4){
+            if(pieceAt(Square(0,i)) != null) return false;
+            if(pieceAt(Square(7,i)) != null) return false;
+        }
+        for(j in 5 until 7){
+            if(pieceAt(Square(0,j)) != null) return false;
+            if(pieceAt(Square(7,j)) != null) return false;
         }
 
         // Check if the king is in check or passes through a square that is under attack
@@ -131,6 +149,8 @@ object ChessGame {
     fun movePiece(from: Square, to: Square) {
 
         val movingPiece = pieceAt(from) ?: return
+
+
         if (movingPiece.chessman == Chessman.KING && canCastle(from, to) && (!isCheck(Player.WHITE) || !isCheck(Player.BLACK)) ) {
             Log.d("ChessGame", "Castling: $from to $to")
             performCastling(from, to)
@@ -148,12 +168,12 @@ object ChessGame {
             if (movingPiece.chessman == Chessman.PAWN && to.row == 7) {
                 // Pawn promotion
 
-                    // Log pawn promotion
-                    Log.d("ChessGame", "Pawn promotion at $to")
+                // Log pawn promotion
+                Log.d("ChessGame", "Pawn promotion at $to")
 
 //                showPopupWindow(anchorView, from)
-                    piecesBox.remove(to)
-                    piecesBox[to] = ChessPiece(Player.WHITE,Chessman.QUEEN,R.drawable.queen_white)
+                piecesBox.remove(to)
+                piecesBox[to] = ChessPiece(Player.WHITE,Chessman.QUEEN,R.drawable.queen_white)
             }
             if (movingPiece.chessman == Chessman.PAWN && to.row == 0) {
                 // Pawn promotion
@@ -165,7 +185,48 @@ object ChessGame {
                 piecesBox.remove(to)
                 piecesBox[to] = ChessPiece(Player.BLACK,Chessman.QUEEN,R.drawable.queen_black)
             }
+            promotePawn(movingPiece, to, piecesBox)
+//            promotePawn(movingPiece, to, piecesBox, )
+//            if (movingPiece.chessman == Chessman.PAWN && (to.row == 0 || to.row == 7)) {
+//                chessDelegate?.onPawnPromotion(to)
+//            }
             turn = if (turn == Player.WHITE) Player.BLACK else Player.WHITE
+        }
+    }
+    fun promotePawn(movingPiece: ChessPiece, to: Square, piecesBox: MutableMap<Square, ChessPiece>) {
+        if (movingPiece.chessman == Chessman.PAWN && (to.row == 0 || to.row == 7)) {
+            // Determine the player and promote to the appropriate queen
+            val newPiece = if (movingPiece.player == Player.WHITE) {
+                ChessPiece(Player.WHITE, Chessman.QUEEN, R.drawable.queen_white)
+            } else {
+                ChessPiece(Player.BLACK, Chessman.QUEEN, R.drawable.queen_black)
+            }
+
+            // Log pawn promotion
+            Log.d("ChessGame", "Pawn promotion at $to")
+
+            // Remove the pawn from the board and replace it with a queen
+            piecesBox.remove(to)
+            piecesBox[to] = newPiece
+        }
+    }
+//    fun promotePawn(movingPiece: ChessPiece, to: Square, piecesBox: MutableMap<Square, ChessPiece>, onPromotionPieceSelected: (Chessman) -> Unit) {
+//        if (movingPiece.chessman == Chessman.PAWN && (to.row == 0 || to.row == 7)) {
+//            Log.d("ChessGame", "Pawn promotion at $to")
+//            onPromotionPieceSelected { selectedPiece ->
+//                val newPiece = ChessPiece(movingPiece.player, selectedPiece, getDrawableForChessman(selectedPiece, movingPiece.player))
+//                piecesBox[to] = newPiece
+//            }
+//        }
+//    }
+
+    private fun getDrawableForChessman(chessman: Chessman, player: Player): Int {
+        return when (chessman) {
+            Chessman.QUEEN -> if (player == Player.WHITE) R.drawable.queen_white else R.drawable.queen_black
+            Chessman.ROOK -> if (player == Player.WHITE) R.drawable.rook_white else R.drawable.rook_black
+            Chessman.BISHOP -> if (player == Player.WHITE) R.drawable.bishop_white else R.drawable.bishop_black
+            Chessman.KNIGHT -> if (player == Player.WHITE) R.drawable.knight_white else R.drawable.knight_black
+            else -> throw IllegalArgumentException("Invalid chessman for promotion")
         }
     }
 

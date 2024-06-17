@@ -1,4 +1,4 @@
-package com.murach.myapplication
+package com.murach.myapplication.WithOffline
 
 
 
@@ -22,7 +22,7 @@ class ChessView @JvmOverloads constructor(
     private val lightColor = Color.parseColor("#EEEEEE")
     private val darkColor = Color.parseColor("#B7C0D8")
 
-    private val pieceBitmap = mutableMapOf<ChessPiece, Bitmap>()
+//    private val pieceBitmap = mutableMapOf<ChessPiece, Bitmap>()
     private var selectedSquare: Square? = null
 
     private var onSquareClickListener: ((Square, Square) -> Unit)? = null

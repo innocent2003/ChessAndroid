@@ -1,4 +1,4 @@
-package com.murach.myapplication
+package com.murach.myapplication.WithOffline
 
 import com.murach.myapplication.enums.Chessman
 import com.murach.myapplication.enums.Player

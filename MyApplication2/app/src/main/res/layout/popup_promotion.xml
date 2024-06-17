@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <Button
+        android:id="@+id/promo_queen"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Queen" />
+
+    <Button
+        android:id="@+id/promo_rook"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Rook" />
+
+    <Button
+        android:id="@+id/promo_bishop"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Bishop" />
+
+    <Button
+        android:id="@+id/promo_knight"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Knight" />
+</LinearLayout>
