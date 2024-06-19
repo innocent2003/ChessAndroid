@@ -153,12 +153,52 @@ object ChessGame {
         return true
     }
 
+    var isEnPassantMove: Boolean = false
 
+    private fun canEnPassant(from: Square, to: Square) {
+        val movingPiece = pieceAt(from) ?: return
+        val enWhite = 4
+        val enBlack = 3
+
+        for( i in 0 until 8) {
+            if (movingPiece.chessman == Chessman.PAWN && movingPiece.player == Player.WHITE && from.row == enWhite && from.col == i && to.row == enWhite + 1 && to.col == i + 1) {
+                piecesBox.remove(Square(i + 1, enWhite));
+                piecesBox.remove(from);
+                piecesBox[to] = movingPiece
+                turn = if (turn == Player.WHITE) Player.BLACK else Player.WHITE
+                isEnPassantMove = true
+            }
+            if(movingPiece.chessman == Chessman.PAWN && movingPiece.player == Player.BLACK && from.row == enBlack && from.col == i && to.row == enBlack-1 && to.col == i+1){
+                piecesBox.remove(Square(i+1,enBlack));
+                piecesBox.remove(from);
+                piecesBox[to] = movingPiece
+                turn = if (turn == Player.WHITE) Player.BLACK else Player.WHITE
+                isEnPassantMove = true
+            }
+        }
+        for(i in 7  downTo 0) {
+            if (movingPiece.chessman == Chessman.PAWN && movingPiece.player == Player.WHITE && from.row == enWhite && from.col == i && to.row == enWhite + 1 && to.col == i - 1) {
+                piecesBox.remove(Square(i - 1, enWhite));
+                piecesBox.remove(from);
+                piecesBox[to] = movingPiece
+                turn = if (turn == Player.WHITE) Player.BLACK else Player.WHITE
+                isEnPassantMove = true
+            }
+            if(movingPiece.chessman == Chessman.PAWN && movingPiece.player == Player.BLACK && from.row == enBlack && from.col == i && to.row == enBlack-1 && to.col == i-1){
+                piecesBox.remove(Square(i - 1,enBlack));
+                piecesBox.remove(from);
+                piecesBox[to] = movingPiece
+                turn = if (turn == Player.WHITE) Player.BLACK else Player.WHITE
+                isEnPassantMove = true
+            }
+        }
+
+    }
 
     fun movePiece(from: Square, to: Square) {
 
         val movingPiece = pieceAt(from) ?: return
-
+        canEnPassant(from, to)
 
 //        if (movingPiece.chessman == Chessman.KING && canCastle(from, to) && (!isCheck(Player.WHITE) || !isCheck(Player.BLACK)) ) {
 //            Log.d("ChessGame", "Castling: $from to $to")
