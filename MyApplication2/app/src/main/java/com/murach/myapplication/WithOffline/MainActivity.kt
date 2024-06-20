@@ -136,6 +136,7 @@ class MainActivity : AppCompatActivity(), ChessDelegate {
             ChessGame.isStalemate(Player.WHITE) || ChessGame.isStalemate(Player.BLACK) -> showToast("Stalemate!")
             ChessGame.isCheck(Player.WHITE) -> showToast("White is in check.")
             ChessGame.isCheck(Player.BLACK) -> showToast("Black is in check.")
+//            ChessGame.whitePawnCheck(ChessPiece(Player.WHITE,Chessman.PAWN,  R.drawable.pawn_white),Square(0,7))-> showToast("Promotion white")
         }
     }
 
