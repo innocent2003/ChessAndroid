@@ -121,19 +121,21 @@ class MainActivity : AppCompatActivity(), ChessDelegate {
 
         val movingPiece = ChessGame.pieceAt(to)
         if (movingPiece != null && movingPiece.chessman == Chessman.PAWN && (to.row == 0 || to.row == 7)) {
-            Toast.makeText(this,"Promotion success",Toast.LENGTH_LONG);
+            Toast.makeText(this, "Promotion success", Toast.LENGTH_LONG);
         }
 
         checkGameStatus()
     }
 
 
-
     private fun checkGameStatus() {
         when {
             ChessGame.isCheckmate(Player.WHITE) -> showToast("Checkmate! Black wins.")
             ChessGame.isCheckmate(Player.BLACK) -> showToast("Checkmate! White wins.")
-            ChessGame.isStalemate(Player.WHITE) || ChessGame.isStalemate(Player.BLACK) -> showToast("Stalemate!")
+            ChessGame.isStalemate(Player.WHITE) || ChessGame.isStalemate(Player.BLACK) -> showToast(
+                "Stalemate!"
+            )
+
             ChessGame.isCheck(Player.WHITE) -> showToast("White is in check.")
             ChessGame.isCheck(Player.BLACK) -> showToast("Black is in check.")
 //            ChessGame.whitePawnCheck(ChessPiece(Player.WHITE,Chessman.PAWN,  R.drawable.pawn_white),Square(0,7))-> showToast("Promotion white")
