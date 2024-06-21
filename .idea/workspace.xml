@@ -5,20 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="29ac02e8-b6be-407e-a298-a3515bc0d04e" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/ChessAndroid.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Chess/.idea/Chess.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ChessServer/src/main/java/org/example/ChessConstants.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ChessServer/src/main/java/org/example/ChessController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ChessServer/src/main/java/org/example/ChessDelegate.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ChessServer/src/main/java/org/example/ChessModel.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ChessServer/src/main/java/org/example/ChessPiece.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ChessServer/src/main/java/org/example/ChessView.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ChessServer/src/main/java/org/example/Square.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ChessServer/src/main/java/org/example/SwingExample.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ChessServer/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/ChessServer/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -62,7 +49,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1718608266523</updated>
-      <workItem from="1718608267583" duration="1531000" />
+      <workItem from="1718608267583" duration="2805000" />
     </task>
     <servers />
   </component>
