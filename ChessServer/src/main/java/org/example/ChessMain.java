@@ -3,6 +3,8 @@ package org.example;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -10,46 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ChessMain extends JPanel{
-//
-//    private static final int SQUARE_SIZE = 50;
-//    private Map<String, BufferedImage> images;
-//    private static final int DIMENSION = 8;
-//    public ChessMain(){
-//        images = new HashMap<>();
-//        loadImages();
-//        JFrame frame = new JFrame("Load image piece");
-//        frame.setSize(400,400);
-//        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//        JLabel label = new JLabel(new ImageIcon(images.get("wp")));
-//        frame.add(label);
-//        frame.setVisible(true);
-//
-//    }
-//    private void loadImages(){
-//        String[] pieces = {"wp", "wR", "wN", "wB", "wK", "wQ", "bp", "bR", "bN", "bB", "bK", "bQ"};
-//        for(String piece: pieces){
-//            try{
-//                String imagePath =  "D:\\CongTy\\ChessAndroid\\ChessServer\\src\\main\\java\\org\\example\\images\\"+ piece+".png";
-//                BufferedImage image = ImageIO.read(new File(imagePath));
-//                BufferedImage scaledImage = scaleImage(image,SQUARE_SIZE,SQUARE_SIZE);
-//                images.put(piece,scaledImage);
-//             }catch (Exception e){
-//                e.printStackTrace();
-//            }
-//        }
-//    }
-//    public BufferedImage scaleImage(BufferedImage img, int width, int height){
-//        Image tmp = img.getScaledInstance(width, height, Image.SCALE_SMOOTH);
-//        BufferedImage scaledImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-//        Graphics2D g2d = scaledImage.createGraphics();
-//        g2d.drawImage(tmp,0,0,null);
-//        g2d.dispose();
-//        return scaledImage;
-//    }
-//    public static void main(String[] args){
-//
-//        SwingUtilities.invokeLater(ChessMain::new);
-//    }
+
 
     private static final int SQUARE_SIZE = 50;
     private static final int BOARD_SIZE = 8;
@@ -65,6 +28,8 @@ public class ChessMain extends JPanel{
             {"wp", "wp", "wp", "wp", "wp", "wp", "wp", "wp"},
             {"wR", "wN", "wB", "wQ", "wK", "wB", "wN", "wR"}
     };
+    private int selectedRow = -1;
+    private int selectedCol = -1;
 
     public ChessMain() {
         images = new HashMap<>();
@@ -75,6 +40,41 @@ public class ChessMain extends JPanel{
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.add(this);
         frame.setVisible(true);
+
+        addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int mouseX = e.getX();
+                int mouseY = e.getY();
+
+                // Determine which square was clicked
+                int row = mouseY / SQUARE_SIZE;
+                int col = mouseX / SQUARE_SIZE;
+
+                // Check if the click is within the bounds of the board
+                if (row >= 0 && row < BOARD_SIZE && col >= 0 && col < BOARD_SIZE) {
+                    // If a piece is already selected, move it to the clicked position
+                    if (selectedRow != -1 && selectedCol != -1) {
+                        // Implement your logic for moving pieces here
+                        // For now, simply swap the pieces between the selected position and the clicked position
+                        String selectedPiece = board[selectedRow][selectedCol];
+                        board[selectedRow][selectedCol] = "--"; // Clear the selected position
+                        board[row][col] = selectedPiece; // Move the piece to the new position
+                        selectedRow = -1;
+                        selectedCol = -1;
+                        repaint(); // Redraw the board after the move
+                    } else {
+                        // Select the clicked piece (if any)
+                        String pieceCode = board[row][col];
+                        if (!pieceCode.equals("--")) {
+                            selectedRow = row;
+                            selectedCol = col;
+                            repaint(); // Redraw the board to highlight the selected piece
+                        }
+                    }
+                }
+            }
+        });
     }
 
     private void loadImages() {
