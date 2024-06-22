@@ -162,10 +162,10 @@ object ChessGame {
 
         for( i in 0 until 8) {
             if (movingPiece.chessman == Chessman.PAWN && movingPiece.player == Player.WHITE && from.row == enWhite && from.col == i && to.row == enWhite + 1 && to.col == i + 1) {
+                turn = if (turn == Player.WHITE) Player.BLACK else Player.WHITE
                 piecesBox.remove(Square(i + 1, enWhite));
                 piecesBox.remove(from);
                 piecesBox[to] = movingPiece
-                turn = if (turn == Player.WHITE) Player.BLACK else Player.WHITE
                 isEnPassantMove = true
             }
             if(movingPiece.chessman == Chessman.PAWN && movingPiece.player == Player.BLACK && from.row == enBlack && from.col == i && to.row == enBlack-1 && to.col == i+1){
