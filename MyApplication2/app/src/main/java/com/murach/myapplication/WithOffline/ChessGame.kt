@@ -257,30 +257,16 @@ object ChessGame {
             }
 
             if (movingPiece.chessman == Chessman.PAWN && to.row == 7) {
-                // Pawn promotion
-
-                    // Log pawn promotion
+                
                     Log.d("ChessGame", "Pawn promotion at $to")
 
-//                showPopupWindow(anchorView, from)
+
                     piecesBox.remove(to)
                     piecesBox[to] = ChessPiece(Player.WHITE,Chessman.QUEEN,R.drawable.queen_white)
             }
-//            if (movingPiece.chessman == Chessman.PAWN && to.row == 0) {
-//                // Pawn promotion
-//
-//                // Log pawn promotion
-//                Log.d("ChessGame", "Pawn promotion at $to")
-//
-////                showPopupWindow(anchorView, from)
-//                piecesBox.remove(to)
-//                piecesBox[to] = ChessPiece(Player.BLACK,Chessman.QUEEN,R.drawable.queen_black)
-//            }
+
             promotePawn(movingPiece, to, piecesBox)
-//            promotePawn(movingPiece, to, piecesBox, )
-//            if (movingPiece.chessman == Chessman.PAWN && (to.row == 0 || to.row == 7)) {
-//                chessDelegate?.onPawnPromotion(to)
-//            }
+
             turn = if (turn == Player.WHITE) Player.BLACK else Player.WHITE
         }
     }
