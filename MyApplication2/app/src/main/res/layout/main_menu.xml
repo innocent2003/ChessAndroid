@@ -39,7 +39,7 @@
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_marginVertical="20dp"
-            android:text="@string/multiplayer"
+            android:text="@string/playComputer"
             android:textSize="20sp" />
 
         <Button

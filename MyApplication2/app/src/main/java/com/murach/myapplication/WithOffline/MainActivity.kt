@@ -3,13 +3,18 @@ package com.murach.myapplication.WithOffline
 
 import android.os.Build
 import android.os.Bundle
+import android.view.Gravity
+import android.view.LayoutInflater
 import android.widget.Button
 import android.widget.ImageButton
+import android.widget.LinearLayout
+import android.widget.PopupWindow
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.murach.myapplication.R
 import com.murach.myapplication.WithOffline.ChessDelegate
 import com.murach.myapplication.WithOffline.ChessGame
+import com.murach.myapplication.WithOffline.ChessGame.piecesBox
 import com.murach.myapplication.WithOffline.ChessPiece
 import com.murach.myapplication.WithOffline.ChessView
 import com.murach.myapplication.WithOffline.Square
@@ -107,6 +112,7 @@ class MainActivity : AppCompatActivity(), ChessDelegate {
 
     override fun movePiece(from: Square, to: Square) {
         ChessGame.movePiece(from, to)
+//        randomMoveForBlack()
         chessView.invalidate()
         checkGameStatus()
 
@@ -117,6 +123,7 @@ class MainActivity : AppCompatActivity(), ChessDelegate {
 //            }
 //        }
         ChessGame.movePiece(from, to)
+//        ChessGame.randomMoveForBlack()
         chessView.invalidate()
 
         val movingPiece = ChessGame.pieceAt(to)
@@ -164,7 +171,7 @@ class MainActivity : AppCompatActivity(), ChessDelegate {
 //        val knightBtn: Button = popupView.findViewById(R.id.promo_knight)
 //
 //        val onPieceSelected: (Chessman) -> Unit = { selectedPiece ->
-//            ChessGame.promotePawn(ChessGame.pieceAt(square)!!, square, ChessGame.piecesBox) {
+////            ChessGame.promotePawn(ChessGame.pieceAt(square)!!, square, ChessGame.piecesBox) {
 //                piecesBox[square] = ChessPiece(ChessGame.pieceAt(square)!!.player, selectedPiece, getDrawableForChessman(selectedPiece, ChessGame.pieceAt(square)!!.player))
 //                chessView.invalidate()
 //                popupWindow.dismiss()

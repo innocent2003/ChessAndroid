@@ -9,6 +9,7 @@ import com.murach.myapplication.R
 import com.murach.myapplication.WithComputer.BotGamePlayActivity
 import com.murach.myapplication.WithOffline.MainActivity
 import com.murach.myapplication.WithWorld.WorldGamePlayActivity
+import com.murach.myapplication.newLogicBot.NewLogicActivity
 
 class MainMenu : AppCompatActivity(), View.OnClickListener {
     private lateinit var playOfflineButton: Button
@@ -51,10 +52,10 @@ class MainMenu : AppCompatActivity(), View.OnClickListener {
                 val intent = Intent(this, ChessSettings::class.java)
                 startActivity(intent)
             }
-//            R.id.play_online_button -> {
-//                val intent = Intent(this, MainActivity3::class.java)
-//                startActivity(intent)
-//            }
+            R.id.play_online_button -> {
+                val intent = Intent(this, NewLogicActivity::class.java)
+                startActivity(intent)
+            }
             R.id.play_computer_button -> {
                 val intent = Intent(this, BotGamePlayActivity::class.java)
                 startActivity(intent)

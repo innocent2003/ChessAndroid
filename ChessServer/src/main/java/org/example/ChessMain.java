@@ -81,7 +81,7 @@ public class ChessMain extends JPanel{
         String[] pieces = {"wp", "wR", "wN", "wB", "wK", "wQ", "bp", "bR", "bN", "bB", "bK", "bQ"};
         for (String piece : pieces) {
             try {
-                String imagePath = "D:\\CongTy\\ChessAndroid\\ChessServer\\src\\main\\java\\org\\example\\images\\" + piece + ".png";
+                String imagePath = "E:\\ChessAndroid\\ChessServer\\src\\main\\java\\org\\example\\images\\"+piece+".png";
                 BufferedImage image = ImageIO.read(new File(imagePath));
                 BufferedImage scaledImage = scaleImage(image, SQUARE_SIZE, SQUARE_SIZE);
                 images.put(piece, scaledImage);

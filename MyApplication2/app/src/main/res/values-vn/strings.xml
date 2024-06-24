@@ -2,6 +2,7 @@
 <resources>
     <string name="app_name">ChessMate</string>
     <string name="multiplayer">Chơi nhiều người</string>
+    <string name="playComputer">Chơi với máy</string>
     <string name="singleplayer">Chơi đơn</string>
     <string name="match_history">Lịch sử trận đấu</string>
     <string name="settings">Cài đặt</string>

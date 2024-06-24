@@ -19,6 +19,7 @@ import com.murach.myapplication.enums.Player
 
 
 import kotlin.math.abs
+import kotlin.random.Random
 
 object ChessGame {
 //    val anchorView = findViewById<View>(R.id.white_promote)
@@ -190,6 +191,7 @@ object ChessGame {
                 piecesBox[to] = movingPiece
                 turn = if (turn == Player.WHITE) Player.BLACK else Player.WHITE
                 isEnPassantMove = true
+
             }
         }
 
@@ -199,11 +201,6 @@ object ChessGame {
 
         val movingPiece = pieceAt(from) ?: return
         canEnPassant(from, to)
-
-//        if (movingPiece.chessman == Chessman.KING && canCastle(from, to) && (!isCheck(Player.WHITE) || !isCheck(Player.BLACK)) ) {
-//            Log.d("ChessGame", "Castling: $from to $to")
-//            performCastling(from, to)
-//        }
         if(movingPiece.chessman == Chessman.KING && to.col == 2 && to.row == 0 && movingPiece.player == Player.WHITE && pieceAt(Square(1,0)) == null && pieceAt(Square(2,0)) == null && pieceAt(Square(3,0)) == null && !isCheck(Player.WHITE) && hasKingMoved[movingPiece.player] == false ){
 
                     piecesBox.remove(Square(0,0))
@@ -246,7 +243,7 @@ object ChessGame {
         }
         else if (movingPiece.player == turn && canMove(from, to)) {
             Log.d("ChessGame", "Moving ${movingPiece.chessman} from $from to $to")
-//            Toast.makeText(appContext, "Moving ${movingPiece.chessman} from $from to $to", Toast.LENGTH_SHORT).show()
+            Toast.makeText(appContext, "Moving ${movingPiece.chessman} from $from to $to", Toast.LENGTH_SHORT).show()
             piecesBox[to] = movingPiece
             piecesBox.remove(from)
 
@@ -255,23 +252,109 @@ object ChessGame {
             } else if (movingPiece.chessman == Chessman.ROOK) {
                 hasRookMoved[from] = true
             }
-
-//            if (movingPiece.chessman == Chessman.PAWN && to.row == 7) {
-//                // Pawn promotion
-//
-//                    // Log pawn promotion
-//                    Log.d("ChessGame", "Pawn promotion at $to")
-//
-////                showPopupWindow(anchorView, from)
-//                    piecesBox.remove(to)
-//                    piecesBox[to] = ChessPiece(Player.WHITE,Chessman.QUEEN,R.drawable.queen_white)
+//            if(turn == Player.BLACK && isCheckmate(Player.BLACK) || isCheckmate(Player.WHITE)){
+//                val randomRow = Random.nextInt(8)
+//                val randomCol = Random.nextInt(8)
+////                val pieceSquare = Square(randomCol, randomRow)
+////                for(row in 0 until 8){
+////                    for(col in 0 until 8){
+////                        piecesBox[]
+////                    }
+////                }
+//                randomMoveForBlack()
+//                turn = if (turn == Player.WHITE) Player.BLACK else Player.WHITE
 //            }
 
+
+
             promotePawn(movingPiece, to, piecesBox)
+//            val pieceSquare = Square(1, 0)
+//            randomMoveForPiece(pieceSquare)
+//            randomPieceAndMove()
+
 
             turn = if (turn == Player.WHITE) Player.BLACK else Player.WHITE
         }
     }
+    fun randomMoveForBlack() {
+        // Get all possible moves for black pieces
+        val allPossibleMoves = getAllPossibleMovesForBlack()
+
+        // Select a random move from the list of valid moves
+        val randomMove = allPossibleMoves.random()
+
+        // Execute the move
+        movePiece(randomMove.first, randomMove.second)
+    }
+
+    private fun getAllPossibleMovesForBlack(): List<Pair<Square, Square>> {
+        val blackPieceMoves = mutableListOf<Pair<Square, Square>>()
+
+        // Iterate over all pieces and collect their possible moves
+        for ((from, piece) in piecesBox) {
+            if (piece.player == Player.BLACK) {
+                getAllPossibleMoves(from).forEach { to ->
+                    blackPieceMoves.add(Pair(from, to))
+                }
+            }
+        }
+
+        return blackPieceMoves
+    }
+
+
+    fun randomPieceAndMove() {
+        // Generate random coordinates for a square
+        val randomRow = Random.nextInt(8)
+        val randomCol = Random.nextInt(8)
+        val pieceSquare = Square(randomCol, randomRow)
+
+        // Retrieve the piece at the random square
+        val piece = ChessGame.pieceAt(pieceSquare) ?: return
+
+        // Generate all possible moves for the selected piece
+        val possibleMoves = mutableListOf<Square>()
+        for (targetRow in 0 until 8) {
+            for (targetCol in 0 until 8) {
+                val targetSquare = Square(targetCol, targetRow)
+                if (ChessGame.canMove(pieceSquare, targetSquare)) {
+                    possibleMoves.add(targetSquare)
+                }
+            }
+        }
+
+        if (possibleMoves.isNotEmpty()) {
+            // Select a random move from the list of valid moves
+            val randomMove = possibleMoves.random()
+
+            // Execute the move
+            ChessGame.movePiece(pieceSquare, randomMove)
+        }
+    }
+    fun randomMoveForPiece(pieceSquare: Square) {
+        val piece = ChessGame.pieceAt(pieceSquare) ?: return
+
+        val possibleMoves = mutableListOf<Square>()
+
+        // Generate all possible moves for the selected piece
+        for (row in 0 until 8) {
+            for (col in 0 until 8) {
+                val targetSquare = Square(col, row)
+                if (ChessGame.canMove(pieceSquare, targetSquare)) {
+                    possibleMoves.add(targetSquare)
+                }
+            }
+        }
+
+        if (possibleMoves.isNotEmpty()) {
+            // Select a random move from the list of valid moves
+            val randomMove = possibleMoves.random()
+
+            // Execute the move
+            ChessGame.movePiece(pieceSquare, randomMove)
+        }
+    }
+
     fun whitePawnCheck(movingPiece: ChessPiece, to: Square, piecesBox: MutableMap<Square, ChessPiece>) : Boolean{
         return if (movingPiece.chessman == Chessman.PAWN && (to.row == 0 || to.row == 7)) {
             // Determine the player and promote to the appropriate queen
