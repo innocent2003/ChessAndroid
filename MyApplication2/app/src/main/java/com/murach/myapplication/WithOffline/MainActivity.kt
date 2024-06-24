@@ -112,7 +112,7 @@ class MainActivity : AppCompatActivity(), ChessDelegate {
 
     override fun movePiece(from: Square, to: Square) {
         ChessGame.movePiece(from, to)
-//        randomMoveForBlack()
+
         chessView.invalidate()
         checkGameStatus()
 
@@ -123,7 +123,7 @@ class MainActivity : AppCompatActivity(), ChessDelegate {
 //            }
 //        }
         ChessGame.movePiece(from, to)
-//        ChessGame.randomMoveForBlack()
+        ChessGame.randomMoveForBlack()
         chessView.invalidate()
 
         val movingPiece = ChessGame.pieceAt(to)
