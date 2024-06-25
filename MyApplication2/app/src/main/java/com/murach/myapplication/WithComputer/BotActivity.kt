@@ -7,6 +7,11 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.Toast
+<<<<<<< HEAD
+=======
+import androidx.appcompat.app.AlertDialog
+import com.murach.myapplication.AllActivity.ChessSettings
+>>>>>>> tmquangFeature3
 import com.murach.myapplication.AllActivity.MainMenu
 import com.murach.myapplication.R
 import com.murach.myapplication.WithOffline.ChessDelegate
@@ -43,12 +48,29 @@ class BotActivity  : AppCompatActivity(), ChessDelegate {
         settingsButton = findViewById<ImageButton>(R.id.IconSettings)
         backButton = findViewById<ImageButton>(R.id.IconBack)
         settingsButton.setOnClickListener {
+<<<<<<< HEAD
 
         }
         backButton.setOnClickListener{
             ChessGame.reset()
             val intent = Intent(this, MainMenu::class.java)
             startActivity(intent)
+=======
+            startActivity(Intent(this, ChessSettings::class.java))
+        }
+        backButton.setOnClickListener{
+            val builder = AlertDialog.Builder(this)
+            builder.setTitle(R.string.titlle_game)
+            builder.setMessage(R.string.exit_game)
+            builder.setPositiveButton(R.string.yes_game) { dialog, which ->
+                ChessGame.reset()
+                startActivity(Intent(this@BotActivity, MainMenu::class.java))
+            }
+            builder.setNegativeButton(R.string.no_game) { dialog, which ->
+                dialog.dismiss()
+            }
+            builder.show()
+>>>>>>> tmquangFeature3
         }
 
 //        listenButton = findViewById(R.id.listen_button)

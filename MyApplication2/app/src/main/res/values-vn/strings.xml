@@ -2,6 +2,7 @@
 <resources>
     <string name="app_name">ChessMate</string>
     <string name="multiplayer">Chơi nhiều người</string>
+    <string name="worldmultiplayer">Đấu thế giới</string>
     <string name="singleplayer">Chơi đơn</string>
     <string name="match_history">Lịch sử trận đấu</string>
     <string name="settings">Cài đặt</string>
@@ -10,5 +11,16 @@
     <string name="Music">Âm nhạc</string>
     <string name="Sound">Âm thanh</string>
     <string name="Language">Ngôn ngữ</string>
+
     <string name="Back">Trở lại</string>
+    <string name="Reset">Cài lại</string>
+    <string name="Resign">Đâu hàng</string>
+
+    <string name="titlle_game">Thoát game</string>
+    <string name="exit_game">Ván cờ sẽ kết thúc nếu bạn thoát?</string>
+    <string name="yes_game">Có</string>
+    <string name="no_game">Không</string>
+
+    <string name="titlle_game_1">Đầu hàng</string>
+    <string name="exit_game_1">Bạn có muốn đầu hàng không?</string>
 </resources>
