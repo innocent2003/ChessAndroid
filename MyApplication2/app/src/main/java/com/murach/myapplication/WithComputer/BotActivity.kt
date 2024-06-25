@@ -48,14 +48,14 @@ class BotActivity  : AppCompatActivity(), ChessDelegate {
         settingsButton = findViewById<ImageButton>(R.id.IconSettings)
         backButton = findViewById<ImageButton>(R.id.IconBack)
         settingsButton.setOnClickListener {
-<<<<<<< HEAD
+
 
         }
         backButton.setOnClickListener{
             ChessGame.reset()
             val intent = Intent(this, MainMenu::class.java)
             startActivity(intent)
-=======
+
             startActivity(Intent(this, ChessSettings::class.java))
         }
         backButton.setOnClickListener{
@@ -70,7 +70,7 @@ class BotActivity  : AppCompatActivity(), ChessDelegate {
                 dialog.dismiss()
             }
             builder.show()
->>>>>>> tmquangFeature3
+
         }
 
 //        listenButton = findViewById(R.id.listen_button)
