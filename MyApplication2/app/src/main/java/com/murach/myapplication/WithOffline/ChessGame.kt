@@ -101,6 +101,22 @@ object ChessGame {
         arrayOf(0.25, 0.3, 0.3, 0.0, 0.0, 0.3, 0.3, 0.25),
         arrayOf(0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2)
     )
+    val piecePositionScores = mapOf(
+        "wN" to knightScores,
+        "bN" to knightScores.reversedArray(),
+        "wB" to bishopScores,
+        "bB" to bishopScores.reversedArray(),
+        "wQ" to queenScores,
+        "bQ" to queenScores.reversedArray(),
+        "wR" to rookScores,
+        "bR" to rookScores.reversedArray(),
+        "wp" to pawnScores,
+        "bp" to pawnScores.reversedArray()
+    )
+
+    const val CHECKMATE = 1000
+    const val STALEMATE = 0
+    const val DEPTH = 1
 
 
     init {
