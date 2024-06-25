@@ -2,6 +2,7 @@ package com.murach.myapplication.WithOffline
 
 
 import android.content.Context
+import android.content.Intent
 import android.icu.text.Transliterator
 import android.util.Log
 import android.view.Gravity
@@ -11,6 +12,8 @@ import android.widget.LinearLayout
 import android.widget.PopupWindow
 
 import android.widget.Toast
+import androidx.core.content.ContextCompat.startActivity
+import com.murach.myapplication.AllActivity.ChessSettings
 import com.murach.myapplication.R
 
 
@@ -273,19 +276,20 @@ object ChessGame {
     fun promotePawn(movingPiece: ChessPiece, to: Square, piecesBox: MutableMap<Square, ChessPiece>) {
         if (movingPiece.chessman == Chessman.PAWN && (to.row == 0 || to.row == 7)) {
             // Determine the player and promote to the appropriate queen
-            val newPiece = if (movingPiece.player == Player.WHITE) {
-                ChessPiece(Player.WHITE, Chessman.QUEEN, R.drawable.queen_white)
-            } else {
-                ChessPiece(Player.BLACK, Chessman.QUEEN, R.drawable.queen_black)
-            }
-
-            // Log pawn promotion
-            Log.d("ChessGame", "Pawn promotion at $to")
-            Toast.makeText(appContext, "Pawn promotion at $to", Toast.LENGTH_SHORT).show()
-
-            // Remove the pawn from the board and replace it with a queen
-            piecesBox.remove(to)
-            piecesBox[to] = newPiece
+//            val newPiece = if (movingPiece.player == Player.WHITE) {
+//                ChessPiece(Player.WHITE, Chessman.QUEEN, R.drawable.queen_white)
+//            } else {
+//                ChessPiece(Player.BLACK, Chessman.QUEEN, R.drawable.queen_black)
+//            }
+//
+//
+//            // Log pawn promotion
+//            Log.d("ChessGame", "Pawn promotion at $to")
+//            Toast.makeText(appContext, "Pawn promotion at $to", Toast.LENGTH_SHORT).show()
+//
+//            // Remove the pawn from the board and replace it with a queen
+//            piecesBox.remove(to)
+//            piecesBox[to] = newPiece
         }
     }
 //    fun promotePawn(movingPiece: ChessPiece, to: Square, piecesBox: MutableMap<Square, ChessPiece>, onPromotionPieceSelected: (Chessman) -> Unit) {

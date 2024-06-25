@@ -2,6 +2,7 @@ package com.murach.myapplication.AllActivity
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
@@ -26,6 +27,8 @@ class MainMenu : AppCompatActivity(), View.OnClickListener {
         settingsButton.setOnClickListener(this)
         playOnlineButton.setOnClickListener(this)
         playComputerButton.setOnClickListener(this)
+
+        Log.d("MainMenu","R")
     }
 
     private fun getButton() {
