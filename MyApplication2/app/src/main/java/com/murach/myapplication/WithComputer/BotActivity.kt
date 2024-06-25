@@ -1,52 +1,68 @@
 package com.murach.myapplication.WithComputer
 
+import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.Toast
+import com.murach.myapplication.AllActivity.MainMenu
 import com.murach.myapplication.R
+import com.murach.myapplication.WithOffline.ChessDelegate
+import com.murach.myapplication.WithOffline.ChessGame
+import com.murach.myapplication.WithOffline.ChessPiece
+import com.murach.myapplication.WithOffline.ChessView
+import com.murach.myapplication.WithOffline.Square
 import com.murach.myapplication.enums.Chessman
 import com.murach.myapplication.enums.Player
 import java.io.PrintWriter
 import java.net.ServerSocket
 
-class BotGamePlayActivity : AppCompatActivity() ,BotDelegate{
+class BotActivity  : AppCompatActivity(), ChessDelegate {
     private val socketHost = "127.0.0.1"
     private val socketPort: Int = 50000
     private val socketGuestPort: Int = 50001 // used for socket server on emulator
-    private lateinit var chessView: BotView
-//    private lateinit var resetButton: ImageButton
+    private lateinit var chessView: ChessView
+    private lateinit var resetButton: ImageButton
     private lateinit var listenButton: Button
     private lateinit var connectButton: Button
-//    private lateinit var settingsButton: ImageButton
+    private lateinit var settingsButton: ImageButton
+    private lateinit var backButton : ImageButton
     private var printWriter: PrintWriter? = null
     private var serverSocket: ServerSocket? = null
     private val isEmulator = Build.FINGERPRINT.contains("generic")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        BotGame.initialize(applicationContext)
+        setContentView(R.layout.activity_bot)
+        ChessGame.initialize(applicationContext)
 
         chessView = findViewById(R.id.chess_view)
-//        resetButton = findViewById<ImageButton>(R.id.IconReset)
-//        settingsButton = findViewById<ImageButton>(R.id.IconSettings)
-//        settingsButton.setOnClickListener {
-//
-//        }
+        resetButton = findViewById<ImageButton>(R.id.IconReset)
+        settingsButton = findViewById<ImageButton>(R.id.IconSettings)
+        backButton = findViewById<ImageButton>(R.id.IconBack)
+        settingsButton.setOnClickListener {
+
+        }
+        backButton.setOnClickListener{
+            ChessGame.reset()
+            val intent = Intent(this, MainMenu::class.java)
+            startActivity(intent)
+        }
+
 //        listenButton = findViewById(R.id.listen_button)
 //        connectButton = findViewById(R.id.connect_button)
         chessView.chessDelegate = this
 
 
-//        resetButton.setOnClickListener {
-//            ChessGame.reset()
-//            chessView.invalidate()
-////            serverSocket?.close()
-////            listenButton.isEnabled = true
-//        }
+        resetButton.setOnClickListener {
+            ChessGame.reset()
+            chessView.invalidate()
+//            serverSocket?.close()
+//            listenButton.isEnabled = true
+        }
+
 
 
 //        listenButton.setOnClickListener {
@@ -80,6 +96,10 @@ class BotGamePlayActivity : AppCompatActivity() ,BotDelegate{
 //            }
 //        }
     }
+    override fun onBackPressed() {
+        super.onBackPressed()
+        ChessGame.reset()
+    }
 
 //    private fun receiveMove(socket: Socket) {
 //        val scanner = Scanner(socket.getInputStream())
@@ -94,10 +114,10 @@ class BotGamePlayActivity : AppCompatActivity() ,BotDelegate{
 //        }
 //    }
 
-    override fun pieceAt(square: Square): BotPiece? = BotGame.pieceAt(square)
+    override fun pieceAt(square: Square): ChessPiece? = ChessGame.pieceAt(square)
 
     override fun movePiece(from: Square, to: Square) {
-        BotGame.movePiece(from, to)
+        ChessGame.movePiece(from, to)
         chessView.invalidate()
         checkGameStatus()
 
@@ -107,26 +127,28 @@ class BotGamePlayActivity : AppCompatActivity() ,BotDelegate{
 //                it.println(moveStr)
 //            }
 //        }
-        BotGame.movePiece(from, to)
+        ChessGame.movePiece(from, to)
         chessView.invalidate()
 
-        val movingPiece = BotGame.pieceAt(to)
+        val movingPiece = ChessGame.pieceAt(to)
         if (movingPiece != null && movingPiece.chessman == Chessman.PAWN && (to.row == 0 || to.row == 7)) {
-            Toast.makeText(this,"Promotion success",Toast.LENGTH_LONG);
+            Toast.makeText(this, "Promotion success", Toast.LENGTH_LONG);
         }
 
         checkGameStatus()
     }
 
 
-
     private fun checkGameStatus() {
         when {
-            BotGame.isCheckmate(Player.WHITE) -> showToast("Checkmate! Black wins.")
-            BotGame.isCheckmate(Player.BLACK) -> showToast("Checkmate! White wins.")
-            BotGame.isStalemate(Player.WHITE) || BotGame.isStalemate(Player.BLACK) -> showToast("Stalemate!")
-            BotGame.isCheck(Player.WHITE) -> showToast("White is in check.")
-            BotGame.isCheck(Player.BLACK) -> showToast("Black is in check.")
+            ChessGame.isCheckmate(Player.WHITE) -> showToast("Checkmate! Black wins.")
+            ChessGame.isCheckmate(Player.BLACK) -> showToast("Checkmate! White wins.")
+            ChessGame.isStalemate(Player.WHITE) || ChessGame.isStalemate(Player.BLACK) -> showToast(
+                "Stalemate!"
+            )
+
+            ChessGame.isCheck(Player.WHITE) -> showToast("White is in check.")
+            ChessGame.isCheck(Player.BLACK) -> showToast("Black is in check.")
 //            ChessGame.whitePawnCheck(ChessPiece(Player.WHITE,Chessman.PAWN,  R.drawable.pawn_white),Square(0,7))-> showToast("Promotion white")
         }
     }

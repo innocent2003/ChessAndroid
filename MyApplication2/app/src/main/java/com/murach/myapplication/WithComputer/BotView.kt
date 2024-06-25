@@ -1,20 +1,23 @@
-package com.murach.myapplication.WithOffline
-
-
+package com.murach.myapplication.WithComputer
 
 import android.content.Context
-import android.graphics.*
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Paint
+import android.graphics.RectF
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
 import com.murach.myapplication.R
+
 import kotlin.math.min
 
-class ChessView @JvmOverloads constructor(
-    context: Context?, attrs: AttributeSet? = null,
+class BotView @JvmOverloads constructor(
+    context: Context, attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
-) : View(context, attrs, defStyleAttr) {
-
+): View(context, attrs, defStyleAttr) {
     private val scaleFactor = 1.0f
     private var originX = 20f
     private var originY = 200f
@@ -22,7 +25,7 @@ class ChessView @JvmOverloads constructor(
     private val lightColor = Color.parseColor("#EEEEEE")
     private val darkColor = Color.parseColor("#B7C0D8")
 
-//    private val pieceBitmap = mutableMapOf<ChessPiece, Bitmap>()
+    //    private val pieceBitmap = mutableMapOf<ChessPiece, Bitmap>()
     private var selectedSquare: Square? = null
 
     private var onSquareClickListener: ((Square, Square) -> Unit)? = null
@@ -44,13 +47,13 @@ class ChessView @JvmOverloads constructor(
     private val paint = Paint()
 
     private var movingPieceBitmap: Bitmap? = null
-    private var movingPiece: ChessPiece? = null
+    private var movingPiece: BotPiece? = null
     private var fromCol: Int = -1
     private var fromRow: Int = -1
     private var movingPieceX = -1f
     private var movingPieceY = -1f
 
-    var chessDelegate: ChessDelegate? = null
+    var chessDelegate: BotDelegate? = null
 
     init {
         loadBitmaps()

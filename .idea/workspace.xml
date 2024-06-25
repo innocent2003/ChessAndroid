@@ -5,9 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="29ac02e8-b6be-407e-a298-a3515bc0d04e" name="Changes" comment="">
+<<<<<<< HEAD
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MyApplication2/app/src/main/java/com/murach/myapplication/WithOffline/ChessGame.kt" beforeDir="false" afterPath="$PROJECT_DIR$/MyApplication2/app/src/main/java/com/murach/myapplication/WithOffline/ChessGame.kt" afterDir="false" />
+=======
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+>>>>>>> 7a37be1284bf313d19eebbac91a78ae329805fdd
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -59,7 +63,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1718608266523</updated>
-      <workItem from="1718608267583" duration="1531000" />
+      <workItem from="1718608267583" duration="2805000" />
     </task>
     <servers />
   </component>
