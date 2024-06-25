@@ -153,36 +153,7 @@ class MainActivity : AppCompatActivity(), ChessDelegate {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
-//    private fun showPromotionPopup(square: Square) {
-//        val inflater = getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
-//        val popupView = inflater.inflate(R.layout.popup_promotion, null)
-//
-//        val width = LinearLayout.LayoutParams.WRAP_CONTENT
-//        val height = LinearLayout.LayoutParams.WRAP_CONTENT
-//        val focusable = true // lets taps outside the popup also dismiss it
-//        val popupWindow = PopupWindow(popupView, width, height, focusable)
-//
-//        // Show the popup window
-//        popupWindow.showAtLocation(findViewById(R.id.main_layout), Gravity.CENTER, 0, 0)
-//
-//        val queenBtn: Button = popupView.findViewById(R.id.promo_queen)
-//        val rookBtn: Button = popupView.findViewById(R.id.promo_rook)
-//        val bishopBtn: Button = popupView.findViewById(R.id.promo_bishop)
-//        val knightBtn: Button = popupView.findViewById(R.id.promo_knight)
-//
-//        val onPieceSelected: (Chessman) -> Unit = { selectedPiece ->
-////            ChessGame.promotePawn(ChessGame.pieceAt(square)!!, square, ChessGame.piecesBox) {
-//                piecesBox[square] = ChessPiece(ChessGame.pieceAt(square)!!.player, selectedPiece, getDrawableForChessman(selectedPiece, ChessGame.pieceAt(square)!!.player))
-//                chessView.invalidate()
-//                popupWindow.dismiss()
-//            }
-//        }
-//
-//        queenBtn.setOnClickListener { onPieceSelected(Chessman.QUEEN) }
-//        rookBtn.setOnClickListener { onPieceSelected(Chessman.ROOK) }
-//        bishopBtn.setOnClickListener { onPieceSelected(Chessman.BISHOP) }
-//        knightBtn.setOnClickListener { onPieceSelected(Chessman.KNIGHT) }
-//    }
+
 
     private fun getDrawableForChessman(chessman: Chessman, player: Player): Int {
         return when (chessman) {

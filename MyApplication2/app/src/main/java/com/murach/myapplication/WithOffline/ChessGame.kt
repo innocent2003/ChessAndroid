@@ -30,6 +30,7 @@ object ChessGame {
         mutableMapOf<Player, Boolean>(Player.WHITE to false, Player.BLACK to false)
     private var hasRookMoved = mutableMapOf<Square, Boolean>()
     private lateinit var appContext: Context
+    
 
     // Other properties and functions
 
@@ -37,7 +38,69 @@ object ChessGame {
         appContext = context.applicationContext
         // Other initialization code
     }
-    var chessDelegate: ChessDelegate? = null
+    val pieceScore = mapOf(
+        "K" to 0,
+        "Q" to 9,
+        "R" to 5,
+        "B" to 3,
+        "N" to 3,
+        "p" to 1
+    )
+
+    val knightScores = arrayOf(
+        arrayOf(0.0, 0.1, 0.2, 0.2, 0.2, 0.2, 0.1, 0.0),
+        arrayOf(0.1, 0.3, 0.5, 0.5, 0.5, 0.5, 0.3, 0.1),
+        arrayOf(0.2, 0.5, 0.6, 0.65, 0.65, 0.6, 0.5, 0.2),
+        arrayOf(0.2, 0.55, 0.65, 0.7, 0.7, 0.65, 0.55, 0.2),
+        arrayOf(0.2, 0.5, 0.65, 0.7, 0.7, 0.65, 0.5, 0.2),
+        arrayOf(0.2, 0.55, 0.6, 0.65, 0.65, 0.6, 0.55, 0.2),
+        arrayOf(0.1, 0.3, 0.5, 0.55, 0.55, 0.5, 0.3, 0.1),
+        arrayOf(0.0, 0.1, 0.2, 0.2, 0.2, 0.2, 0.1, 0.0)
+    )
+
+    val bishopScores = arrayOf(
+        arrayOf(0.0, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.0),
+        arrayOf(0.2, 0.4, 0.4, 0.4, 0.4, 0.4, 0.4, 0.2),
+        arrayOf(0.2, 0.4, 0.5, 0.6, 0.6, 0.5, 0.4, 0.2),
+        arrayOf(0.2, 0.5, 0.5, 0.6, 0.6, 0.5, 0.5, 0.2),
+        arrayOf(0.2, 0.4, 0.6, 0.6, 0.6, 0.6, 0.4, 0.2),
+        arrayOf(0.2, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.2),
+        arrayOf(0.2, 0.5, 0.4, 0.4, 0.4, 0.4, 0.5, 0.2),
+        arrayOf(0.0, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.0)
+    )
+
+    val rookScores = arrayOf(
+        arrayOf(0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25),
+        arrayOf(0.5, 0.75, 0.75, 0.75, 0.75, 0.75, 0.75, 0.5),
+        arrayOf(0.0, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.0),
+        arrayOf(0.0, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.0),
+        arrayOf(0.0, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.0),
+        arrayOf(0.0, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.0),
+        arrayOf(0.0, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.0),
+        arrayOf(0.25, 0.25, 0.25, 0.5, 0.5, 0.25, 0.25, 0.25)
+    )
+
+    val queenScores = arrayOf(
+        arrayOf(0.0, 0.2, 0.2, 0.3, 0.3, 0.2, 0.2, 0.0),
+        arrayOf(0.2, 0.4, 0.4, 0.4, 0.4, 0.4, 0.4, 0.2),
+        arrayOf(0.2, 0.4, 0.5, 0.5, 0.5, 0.5, 0.4, 0.2),
+        arrayOf(0.3, 0.4, 0.5, 0.5, 0.5, 0.5, 0.4, 0.3),
+        arrayOf(0.4, 0.4, 0.5, 0.5, 0.5, 0.5, 0.4, 0.3),
+        arrayOf(0.2, 0.5, 0.5, 0.5, 0.5, 0.5, 0.4, 0.2),
+        arrayOf(0.2, 0.4, 0.5, 0.4, 0.4, 0.4, 0.4, 0.2),
+        arrayOf(0.0, 0.2, 0.2, 0.3, 0.3, 0.2, 0.2, 0.0)
+    )
+
+    val pawnScores = arrayOf(
+        arrayOf(0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8),
+        arrayOf(0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7),
+        arrayOf(0.3, 0.3, 0.4, 0.5, 0.5, 0.4, 0.3, 0.3),
+        arrayOf(0.25, 0.25, 0.3, 0.45, 0.45, 0.3, 0.25, 0.25),
+        arrayOf(0.2, 0.2, 0.2, 0.4, 0.4, 0.2, 0.2, 0.2),
+        arrayOf(0.25, 0.15, 0.1, 0.2, 0.2, 0.1, 0.15, 0.25),
+        arrayOf(0.25, 0.3, 0.3, 0.0, 0.0, 0.3, 0.3, 0.25),
+        arrayOf(0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2)
+    )
 
 
     init {
