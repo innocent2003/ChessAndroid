@@ -32,11 +32,6 @@
             android:layout_height="wrap_content"
             android:src="@drawable/reset_icon" />
 
-        <ImageButton
-            android:id="@+id/IconResign"
-            android:layout_width="85dp"
-            android:layout_height="wrap_content"
-            android:src="@drawable/resign_icon" />
 
         <ImageButton
             android:id="@+id/IconSettings"
@@ -72,14 +67,6 @@
             android:textColor="@color/purple"
             android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/TextResign"
-            android:layout_width="85dp"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="@string/Resign"
-            android:textColor="@color/purple"
-            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/TextSettings"
@@ -93,4 +80,3 @@
 
 
 </LinearLayout>
-

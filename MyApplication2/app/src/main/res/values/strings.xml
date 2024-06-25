@@ -2,6 +2,7 @@
     <string name="app_name">ChessMate</string>
     <string name="multiplayer">Multiplayer</string>
     <string name="singleplayer">Single Player</string>
+    <string name="worldmultiplayer">World multiplayer</string>
     <string name="match_history">Match History</string>
     <string name="settings">Settings</string>
 
@@ -9,5 +10,17 @@
     <string name="Music">Music</string>
     <string name="Sound">Sound</string>
     <string name="Language">Language</string>
+
+
     <string name="Back">Back</string>
+    <string name="Reset">Reset</string>
+    <string name="Resign">Resign</string>
+
+    <string name="titlle_game">Exit game</string>
+    <string name="exit_game">The game is over if you exit?</string>
+    <string name="yes_game">Yes</string>
+    <string name="no_game">No</string>
+
+    <string name="titlle_game_1">Resign</string>
+    <string name="exit_game_1">Do you want to surrender?</string>
 </resources>
