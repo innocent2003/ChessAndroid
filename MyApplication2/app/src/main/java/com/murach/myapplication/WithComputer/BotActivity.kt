@@ -1,34 +1,25 @@
-package com.murach.myapplication.WithOffline
-
+package com.murach.myapplication.WithComputer
 
 import android.content.Intent
 import android.os.Build
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.Gravity
-import android.view.LayoutInflater
 import android.widget.Button
 import android.widget.ImageButton
-import android.widget.LinearLayout
-import android.widget.PopupWindow
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import com.murach.myapplication.AllActivity.MainMenu
 import com.murach.myapplication.R
 import com.murach.myapplication.WithOffline.ChessDelegate
 import com.murach.myapplication.WithOffline.ChessGame
-import com.murach.myapplication.WithOffline.ChessGame.piecesBox
 import com.murach.myapplication.WithOffline.ChessPiece
 import com.murach.myapplication.WithOffline.ChessView
 import com.murach.myapplication.WithOffline.Square
 import com.murach.myapplication.enums.Chessman
 import com.murach.myapplication.enums.Player
-
 import java.io.PrintWriter
 import java.net.ServerSocket
 
-const val TAG = "MainActivity"
-
-class MainActivity : AppCompatActivity(), ChessDelegate {
+class BotActivity  : AppCompatActivity(), ChessDelegate {
     private val socketHost = "127.0.0.1"
     private val socketPort: Int = 50000
     private val socketGuestPort: Int = 50001 // used for socket server on emulator
@@ -44,7 +35,7 @@ class MainActivity : AppCompatActivity(), ChessDelegate {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_bot)
         ChessGame.initialize(applicationContext)
 
         chessView = findViewById(R.id.chess_view)
@@ -59,6 +50,7 @@ class MainActivity : AppCompatActivity(), ChessDelegate {
             val intent = Intent(this, MainMenu::class.java)
             startActivity(intent)
         }
+
 //        listenButton = findViewById(R.id.listen_button)
 //        connectButton = findViewById(R.id.connect_button)
         chessView.chessDelegate = this
@@ -70,6 +62,7 @@ class MainActivity : AppCompatActivity(), ChessDelegate {
 //            serverSocket?.close()
 //            listenButton.isEnabled = true
         }
+
 
 
 //        listenButton.setOnClickListener {
@@ -103,7 +96,6 @@ class MainActivity : AppCompatActivity(), ChessDelegate {
 //            }
 //        }
     }
-
     override fun onBackPressed() {
         super.onBackPressed()
         ChessGame.reset()
@@ -126,7 +118,6 @@ class MainActivity : AppCompatActivity(), ChessDelegate {
 
     override fun movePiece(from: Square, to: Square) {
         ChessGame.movePiece(from, to)
-
         chessView.invalidate()
         checkGameStatus()
 
@@ -137,7 +128,6 @@ class MainActivity : AppCompatActivity(), ChessDelegate {
 //            }
 //        }
         ChessGame.movePiece(from, to)
-        ChessGame.randomMoveForBlack()
         chessView.invalidate()
 
         val movingPiece = ChessGame.pieceAt(to)
@@ -167,7 +157,36 @@ class MainActivity : AppCompatActivity(), ChessDelegate {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
-
+//    private fun showPromotionPopup(square: Square) {
+//        val inflater = getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
+//        val popupView = inflater.inflate(R.layout.popup_promotion, null)
+//
+//        val width = LinearLayout.LayoutParams.WRAP_CONTENT
+//        val height = LinearLayout.LayoutParams.WRAP_CONTENT
+//        val focusable = true // lets taps outside the popup also dismiss it
+//        val popupWindow = PopupWindow(popupView, width, height, focusable)
+//
+//        // Show the popup window
+//        popupWindow.showAtLocation(findViewById(R.id.main_layout), Gravity.CENTER, 0, 0)
+//
+//        val queenBtn: Button = popupView.findViewById(R.id.promo_queen)
+//        val rookBtn: Button = popupView.findViewById(R.id.promo_rook)
+//        val bishopBtn: Button = popupView.findViewById(R.id.promo_bishop)
+//        val knightBtn: Button = popupView.findViewById(R.id.promo_knight)
+//
+//        val onPieceSelected: (Chessman) -> Unit = { selectedPiece ->
+//            ChessGame.promotePawn(ChessGame.pieceAt(square)!!, square, ChessGame.piecesBox) {
+//                piecesBox[square] = ChessPiece(ChessGame.pieceAt(square)!!.player, selectedPiece, getDrawableForChessman(selectedPiece, ChessGame.pieceAt(square)!!.player))
+//                chessView.invalidate()
+//                popupWindow.dismiss()
+//            }
+//        }
+//
+//        queenBtn.setOnClickListener { onPieceSelected(Chessman.QUEEN) }
+//        rookBtn.setOnClickListener { onPieceSelected(Chessman.ROOK) }
+//        bishopBtn.setOnClickListener { onPieceSelected(Chessman.BISHOP) }
+//        knightBtn.setOnClickListener { onPieceSelected(Chessman.KNIGHT) }
+//    }
 
     private fun getDrawableForChessman(chessman: Chessman, player: Player): Int {
         return when (chessman) {
