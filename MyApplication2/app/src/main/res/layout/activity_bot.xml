@@ -32,14 +32,6 @@
             android:layout_height="wrap_content"
             android:src="@drawable/reset_icon" />
 
-<<<<<<< HEAD
-        <ImageButton
-            android:id="@+id/IconResign"
-            android:layout_width="85dp"
-            android:layout_height="wrap_content"
-            android:src="@drawable/resign_icon" />
-=======
->>>>>>> tmquangFeature3
 
         <ImageButton
             android:id="@+id/IconSettings"
@@ -62,11 +54,7 @@
             android:layout_width="85dp"
             android:layout_height="wrap_content"
             android:gravity="center"
-<<<<<<< HEAD
-            android:text="Back"
-=======
             android:text="@string/Back"
->>>>>>> tmquangFeature3
             android:textColor="@color/purple"
             android:textStyle="bold" />
 
@@ -75,36 +63,17 @@
             android:layout_width="85dp"
             android:layout_height="wrap_content"
             android:gravity="center"
-<<<<<<< HEAD
-            android:text="Reset"
-            android:textColor="@color/purple"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/TextResign"
-            android:layout_width="85dp"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="Resign"
-            android:textColor="@color/purple"
-            android:textStyle="bold" />
-=======
             android:text="@string/Reset"
             android:textColor="@color/purple"
             android:textStyle="bold" />
 
->>>>>>> tmquangFeature3
 
         <TextView
             android:id="@+id/TextSettings"
             android:layout_width="85dp"
             android:layout_height="wrap_content"
             android:gravity="center"
-<<<<<<< HEAD
-            android:text="Settings"
-=======
             android:text="@string/Settings"
->>>>>>> tmquangFeature3
             android:textColor="@color/purple"
             android:textStyle="bold" />
     </LinearLayout>

@@ -13,10 +13,9 @@ import android.widget.PopupWindow
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-<<<<<<< HEAD
-=======
+
 import com.murach.myapplication.AllActivity.ChessSettings
->>>>>>> tmquangFeature3
+
 import com.murach.myapplication.AllActivity.MainMenu
 import com.murach.myapplication.R
 import com.murach.myapplication.WithOffline.ChessDelegate
@@ -57,26 +56,21 @@ class MainActivity : AppCompatActivity(), ChessDelegate {
         resetButton = findViewById<ImageButton>(R.id.IconReset)
         settingsButton = findViewById<ImageButton>(R.id.IconSettings)
         backButton = findViewById<ImageButton>(R.id.IconBack)
-<<<<<<< HEAD
-=======
+
         resignButton = findViewById<ImageButton>(R.id.IconResign)
->>>>>>> tmquangFeature3
+
         settingsButton.setOnClickListener {
             startActivity(Intent(this, ChessSettings::class.java))
         }
-<<<<<<< HEAD
+
         backButton.setOnClickListener{
             ChessGame.reset()
             val intent = Intent(this, MainMenu::class.java)
             startActivity(intent)
         }
-=======
-//        backButton.setOnClickListener{
-//            ChessGame.reset()
-//            val intent = Intent(this, MainMenu::class.java)
-//            startActivity(intent)
-//        }
->>>>>>> tmquangFeature3
+
+
+
 //        listenButton = findViewById(R.id.listen_button)
 //        connectButton = findViewById(R.id.connect_button)
         chessView.chessDelegate = this

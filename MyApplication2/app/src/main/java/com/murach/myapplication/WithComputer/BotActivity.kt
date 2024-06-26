@@ -7,11 +7,10 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.Toast
-<<<<<<< HEAD
-=======
+
 import androidx.appcompat.app.AlertDialog
 import com.murach.myapplication.AllActivity.ChessSettings
->>>>>>> tmquangFeature3
+
 import com.murach.myapplication.AllActivity.MainMenu
 import com.murach.myapplication.R
 import com.murach.myapplication.WithOffline.ChessDelegate
@@ -51,13 +50,7 @@ class BotActivity  : AppCompatActivity(), ChessDelegate {
 
 
         }
-        backButton.setOnClickListener{
-            ChessGame.reset()
-            val intent = Intent(this, MainMenu::class.java)
-            startActivity(intent)
 
-            startActivity(Intent(this, ChessSettings::class.java))
-        }
         backButton.setOnClickListener{
             val builder = AlertDialog.Builder(this)
             builder.setTitle(R.string.titlle_game)
@@ -70,6 +63,7 @@ class BotActivity  : AppCompatActivity(), ChessDelegate {
                 dialog.dismiss()
             }
             builder.show()
+
 
         }
 
