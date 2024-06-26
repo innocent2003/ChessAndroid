@@ -201,14 +201,7 @@ object ChessGame {
                 return false
             }
         }
-//        for(i in 1 until 4){
-//            if(pieceAt(Square(0,i)) != null) return false;
-//            if(pieceAt(Square(7,i)) != null) return false;
-//        }
-//        for(j in 5 until 7){
-//            if(pieceAt(Square(0,j)) != null) return false;
-//            if(pieceAt(Square(7,j)) != null) return false;
-//        }
+
 
         // Check if the king is in check or passes through a square that is under attack
         // For simplicity, this example does not implement the check detection function.
@@ -315,27 +308,8 @@ object ChessGame {
             } else if (movingPiece.chessman == Chessman.ROOK) {
                 hasRookMoved[from] = true
             }
-//            if(turn == Player.BLACK && isCheckmate(Player.BLACK) || isCheckmate(Player.WHITE)){
-//                val randomRow = Random.nextInt(8)
-//                val randomCol = Random.nextInt(8)
-////                val pieceSquare = Square(randomCol, randomRow)
-////                for(row in 0 until 8){
-////                    for(col in 0 until 8){
-////                        piecesBox[]
-////                    }
-////                }
-//                randomMoveForBlack()
-//                turn = if (turn == Player.WHITE) Player.BLACK else Player.WHITE
-//            }
-
-
 
             promotePawn(movingPiece, to, piecesBox)
-//            val pieceSquare = Square(1, 0)
-//            randomMoveForPiece(pieceSquare)
-//            randomPieceAndMove()
-
-
             turn = if (turn == Player.WHITE) Player.BLACK else Player.WHITE
         }
     }
@@ -466,6 +440,7 @@ object ChessGame {
 //            }
 //        }
 //    }
+
 
     private fun getDrawableForChessman(chessman: Chessman, player: Player): Int {
         return when (chessman) {
@@ -672,6 +647,15 @@ object ChessGame {
 //        buttonClose.setOnClickListener {
 //            popupWindow.dismiss()
 //        }
+    }
+    fun checkPawnPromotion( to: Square) :Boolean{
+        if (to.row == 0 || to.row == 7) {
+            // Determine the player and promote to the appropriate queen
+            return true
+
+
+        }
+        return false
     }
 
 }

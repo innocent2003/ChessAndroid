@@ -7,7 +7,7 @@ import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import com.murach.myapplication.R
 import com.murach.myapplication.WithComputer.BotActivity
-import com.murach.myapplication.WithComputer.BotGamePlayActivity
+
 import com.murach.myapplication.WithOffline.MainActivity
 import com.murach.myapplication.WithWorld.WorldGamePlayActivity
 

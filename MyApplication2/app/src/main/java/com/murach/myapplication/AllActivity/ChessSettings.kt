@@ -1,6 +1,4 @@
 package com.murach.myapplication.AllActivity
-
-
 import android.content.Intent
 import android.media.MediaPlayer
 import android.os.Bundle
@@ -81,7 +79,7 @@ class ChessSettings : AppCompatActivity() {
 
         iconBack = findViewById(R.id.IconBack)
         iconBack.setOnClickListener {
-                startActivity(Intent(this, MainMenu::class.java))
+            startActivity(Intent(this, MainMenu::class.java))
         }
     }
 

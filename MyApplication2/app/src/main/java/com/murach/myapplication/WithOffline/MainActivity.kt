@@ -69,13 +69,7 @@ class MainActivity : AppCompatActivity(), ChessDelegate {
             startActivity(intent)
         }
 
-
-
-//        listenButton = findViewById(R.id.listen_button)
-//        connectButton = findViewById(R.id.connect_button)
         chessView.chessDelegate = this
-
-
         resetButton.setOnClickListener {
             ChessGame.reset()
             chessView.invalidate()
