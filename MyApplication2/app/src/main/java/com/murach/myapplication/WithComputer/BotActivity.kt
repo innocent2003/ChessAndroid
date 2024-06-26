@@ -47,8 +47,7 @@ class BotActivity  : AppCompatActivity(), ChessDelegate {
         settingsButton = findViewById<ImageButton>(R.id.IconSettings)
         backButton = findViewById<ImageButton>(R.id.IconBack)
         settingsButton.setOnClickListener {
-
-
+            startActivity(Intent(this, ChessSettings::class.java))
         }
 
         backButton.setOnClickListener{
