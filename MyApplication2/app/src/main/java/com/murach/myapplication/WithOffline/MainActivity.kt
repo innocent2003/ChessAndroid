@@ -163,14 +163,10 @@ class MainActivity : AppCompatActivity(), ChessDelegate {
         chessView.invalidate()
         checkGameStatus()
 
-//        printWriter?.let {
-//            val moveStr = "${from.col},${from.row},${to.col},${to.row}"
-//            Executors.newSingleThreadExecutor().execute {
-//                it.println(moveStr)
-//            }
-//        }
-        ChessGame.movePiece(from, to)
+
+        ChessGame.movePiece1(from, to)
         ChessGame.randomMoveForBlack()
+//        ChessGame.scoreBoard()
         chessView.invalidate()
 
         val movingPiece = ChessGame.pieceAt(to)

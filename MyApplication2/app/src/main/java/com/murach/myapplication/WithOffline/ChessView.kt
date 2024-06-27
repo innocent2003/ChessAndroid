@@ -74,9 +74,9 @@ class ChessView @JvmOverloads constructor(
         drawPieces(canvas)
     }
 
-    fun setOnSquareClickListener(listener: (Square, Square) -> Unit) {
-        onSquareClickListener = listener
-    }
+//    fun setOnSquareClickListener(listener: (Square, Square) -> Unit) {
+//        onSquareClickListener = listener
+//    }
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {
         event ?: return false

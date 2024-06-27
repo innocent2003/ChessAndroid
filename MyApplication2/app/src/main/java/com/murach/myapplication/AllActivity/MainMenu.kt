@@ -45,17 +45,17 @@ class MainMenu : AppCompatActivity(), View.OnClickListener {
                 startActivity(intent)
             }
             R.id.match_history_button -> {
-                val intent = Intent(this, MatchHistory::class.java)
+                val intent = Intent(this, ChatActivity::class.java)
                 startActivity(intent)
             }
             R.id.settings_button -> {
                 val intent = Intent(this, ChessSettings::class.java)
                 startActivity(intent)
             }
-//            R.id.play_online_button -> {
-//                val intent = Intent(this, MainActivity3::class.java)
-//                startActivity(intent)
-//            }
+            R.id.play_online_button -> {
+                val intent = Intent(this, WorldGamePlayActivity::class.java)
+                startActivity(intent)
+            }
             R.id.play_computer_button -> {
                 val intent = Intent(this, BotActivity::class.java)
                 startActivity(intent)

@@ -51,8 +51,8 @@ class BotActivity  : AppCompatActivity(), ChessDelegate {
         settingsButton = findViewById<ImageButton>(R.id.IconSettings)
         backButton = findViewById<ImageButton>(R.id.IconBack)
         settingsButton.setOnClickListener {
-//            startActivity(Intent(this, ChessSettings::class.java))
-            showPromotionPopup()
+            startActivity(Intent(this, ChessSettings::class.java))
+//            showPromotionPopup()
         }
 
         backButton.setOnClickListener{
@@ -81,7 +81,17 @@ class BotActivity  : AppCompatActivity(), ChessDelegate {
     }
     override fun onBackPressed() {
         super.onBackPressed()
-        ChessGame.reset()
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle(R.string.titlle_game)
+        builder.setMessage(R.string.exit_game)
+        builder.setPositiveButton(R.string.yes_game) { dialog, which ->
+            ChessGame.reset()
+            startActivity(Intent(this@BotActivity, MainMenu::class.java))
+        }
+        builder.setNegativeButton(R.string.no_game) { dialog, which ->
+            dialog.dismiss()
+        }
+        builder.show()
     }
     override fun pieceAt(square: Square): ChessPiece? = ChessGame.pieceAt(square)
 
@@ -90,16 +100,16 @@ class BotActivity  : AppCompatActivity(), ChessDelegate {
         chessView.invalidate()
         checkGameStatus()
         ChessGame.movePiece(from, to)
-
-        if(ChessGame.checkPawnPromotion(to)){
-            showPromotionPopup()
-        }
+        val movingPiece = ChessGame.pieceAt(to)
+//        if(ChessGame.checkPawnPromotion(to) ){
+//            showPromotionPopup()
+//        }
         chessView.invalidate()
 
-        val movingPiece = ChessGame.pieceAt(to)
-        if (movingPiece != null && movingPiece.chessman == Chessman.PAWN && (to.row == 0 || to.row == 7)) {
-            Toast.makeText(this, "Promotion success", Toast.LENGTH_LONG);
-        }
+//        val movingPiece = ChessGame.pieceAt(to)
+//        if (movingPiece != null && movingPiece.chessman == Chessman.PAWN && (to.row == 0 || to.row == 7)) {
+//            Toast.makeText(this, "Promotion success", Toast.LENGTH_LONG);
+//        }
 
         checkGameStatus()
     }

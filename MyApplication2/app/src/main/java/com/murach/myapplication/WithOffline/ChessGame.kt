@@ -30,7 +30,9 @@ object ChessGame {
         mutableMapOf<Player, Boolean>(Player.WHITE to false, Player.BLACK to false)
     private var hasRookMoved = mutableMapOf<Square, Boolean>()
     private lateinit var appContext: Context
-
+    val CHECKMATE = 1000
+    val STALEMATE = 0
+    val DEPTH = 2
 
     // Other properties and functions
 
@@ -48,59 +50,60 @@ object ChessGame {
     )
 
     val knightScores = arrayOf(
-        arrayOf(0.0, 0.1, 0.2, 0.2, 0.2, 0.2, 0.1, 0.0),
-        arrayOf(0.1, 0.3, 0.5, 0.5, 0.5, 0.5, 0.3, 0.1),
-        arrayOf(0.2, 0.5, 0.6, 0.65, 0.65, 0.6, 0.5, 0.2),
-        arrayOf(0.2, 0.55, 0.65, 0.7, 0.7, 0.65, 0.55, 0.2),
-        arrayOf(0.2, 0.5, 0.65, 0.7, 0.7, 0.65, 0.5, 0.2),
-        arrayOf(0.2, 0.55, 0.6, 0.65, 0.65, 0.6, 0.55, 0.2),
-        arrayOf(0.1, 0.3, 0.5, 0.55, 0.55, 0.5, 0.3, 0.1),
-        arrayOf(0.0, 0.1, 0.2, 0.2, 0.2, 0.2, 0.1, 0.0)
+        doubleArrayOf(0.0, 0.1, 0.2, 0.2, 0.2, 0.2, 0.1, 0.0),
+        doubleArrayOf(0.1, 0.3, 0.5, 0.5, 0.5, 0.5, 0.3, 0.1),
+        doubleArrayOf(0.2, 0.5, 0.6, 0.65, 0.65, 0.6, 0.5, 0.2),
+        doubleArrayOf(0.2, 0.55, 0.65, 0.7, 0.7, 0.65, 0.55, 0.2),
+        doubleArrayOf(0.2, 0.5, 0.65, 0.7, 0.7, 0.65, 0.5, 0.2),
+        doubleArrayOf(0.2, 0.55, 0.6, 0.65, 0.65, 0.6, 0.55, 0.2),
+        doubleArrayOf(0.1, 0.3, 0.5, 0.55, 0.55, 0.5, 0.3, 0.1),
+        doubleArrayOf(0.0, 0.1, 0.2, 0.2, 0.2, 0.2, 0.1, 0.0)
     )
 
     val bishopScores = arrayOf(
-        arrayOf(0.0, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.0),
-        arrayOf(0.2, 0.4, 0.4, 0.4, 0.4, 0.4, 0.4, 0.2),
-        arrayOf(0.2, 0.4, 0.5, 0.6, 0.6, 0.5, 0.4, 0.2),
-        arrayOf(0.2, 0.5, 0.5, 0.6, 0.6, 0.5, 0.5, 0.2),
-        arrayOf(0.2, 0.4, 0.6, 0.6, 0.6, 0.6, 0.4, 0.2),
-        arrayOf(0.2, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.2),
-        arrayOf(0.2, 0.5, 0.4, 0.4, 0.4, 0.4, 0.5, 0.2),
-        arrayOf(0.0, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.0)
+        doubleArrayOf(0.0, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.0),
+        doubleArrayOf(0.2, 0.4, 0.4, 0.4, 0.4, 0.4, 0.4, 0.2),
+        doubleArrayOf(0.2, 0.4, 0.5, 0.6, 0.6, 0.5, 0.4, 0.2),
+        doubleArrayOf(0.2, 0.5, 0.5, 0.6, 0.6, 0.5, 0.5, 0.2),
+        doubleArrayOf(0.2, 0.4, 0.6, 0.6, 0.6, 0.6, 0.4, 0.2),
+        doubleArrayOf(0.2, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.2),
+        doubleArrayOf(0.2, 0.5, 0.4, 0.4, 0.4, 0.4, 0.5, 0.2),
+        doubleArrayOf(0.0, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.0)
     )
 
     val rookScores = arrayOf(
-        arrayOf(0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25),
-        arrayOf(0.5, 0.75, 0.75, 0.75, 0.75, 0.75, 0.75, 0.5),
-        arrayOf(0.0, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.0),
-        arrayOf(0.0, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.0),
-        arrayOf(0.0, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.0),
-        arrayOf(0.0, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.0),
-        arrayOf(0.0, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.0),
-        arrayOf(0.25, 0.25, 0.25, 0.5, 0.5, 0.25, 0.25, 0.25)
+        doubleArrayOf(0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25),
+        doubleArrayOf(0.5, 0.75, 0.75, 0.75, 0.75, 0.75, 0.75, 0.5),
+        doubleArrayOf(0.0, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.0),
+        doubleArrayOf(0.0, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.0),
+        doubleArrayOf(0.0, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.0),
+        doubleArrayOf(0.0, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.0),
+        doubleArrayOf(0.0, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.0),
+        doubleArrayOf(0.25, 0.25, 0.25, 0.5, 0.5, 0.25, 0.25, 0.25)
     )
 
     val queenScores = arrayOf(
-        arrayOf(0.0, 0.2, 0.2, 0.3, 0.3, 0.2, 0.2, 0.0),
-        arrayOf(0.2, 0.4, 0.4, 0.4, 0.4, 0.4, 0.4, 0.2),
-        arrayOf(0.2, 0.4, 0.5, 0.5, 0.5, 0.5, 0.4, 0.2),
-        arrayOf(0.3, 0.4, 0.5, 0.5, 0.5, 0.5, 0.4, 0.3),
-        arrayOf(0.4, 0.4, 0.5, 0.5, 0.5, 0.5, 0.4, 0.3),
-        arrayOf(0.2, 0.5, 0.5, 0.5, 0.5, 0.5, 0.4, 0.2),
-        arrayOf(0.2, 0.4, 0.5, 0.4, 0.4, 0.4, 0.4, 0.2),
-        arrayOf(0.0, 0.2, 0.2, 0.3, 0.3, 0.2, 0.2, 0.0)
+        doubleArrayOf(0.0, 0.2, 0.2, 0.3, 0.3, 0.2, 0.2, 0.0),
+        doubleArrayOf(0.2, 0.4, 0.4, 0.4, 0.4, 0.4, 0.4, 0.2),
+        doubleArrayOf(0.2, 0.4, 0.5, 0.5, 0.5, 0.5, 0.4, 0.2),
+        doubleArrayOf(0.3, 0.4, 0.5, 0.5, 0.5, 0.5, 0.4, 0.3),
+        doubleArrayOf(0.4, 0.4, 0.5, 0.5, 0.5, 0.5, 0.4, 0.3),
+        doubleArrayOf(0.2, 0.5, 0.5, 0.5, 0.5, 0.5, 0.4, 0.2),
+        doubleArrayOf(0.2, 0.4, 0.5, 0.4, 0.4, 0.4, 0.4, 0.2),
+        doubleArrayOf(0.0, 0.2, 0.2, 0.3, 0.3, 0.2, 0.2, 0.0)
     )
 
     val pawnScores = arrayOf(
-        arrayOf(0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8),
-        arrayOf(0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7),
-        arrayOf(0.3, 0.3, 0.4, 0.5, 0.5, 0.4, 0.3, 0.3),
-        arrayOf(0.25, 0.25, 0.3, 0.45, 0.45, 0.3, 0.25, 0.25),
-        arrayOf(0.2, 0.2, 0.2, 0.4, 0.4, 0.2, 0.2, 0.2),
-        arrayOf(0.25, 0.15, 0.1, 0.2, 0.2, 0.1, 0.15, 0.25),
-        arrayOf(0.25, 0.3, 0.3, 0.0, 0.0, 0.3, 0.3, 0.25),
-        arrayOf(0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2)
+        doubleArrayOf(0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8),
+        doubleArrayOf(0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7),
+        doubleArrayOf(0.3, 0.3, 0.4, 0.5, 0.5, 0.4, 0.3, 0.3),
+        doubleArrayOf(0.25, 0.25, 0.3, 0.45, 0.45, 0.3, 0.25, 0.25),
+        doubleArrayOf(0.2, 0.2, 0.2, 0.4, 0.4, 0.2, 0.2, 0.2),
+        doubleArrayOf(0.25, 0.15, 0.1, 0.2, 0.2, 0.1, 0.15, 0.25),
+        doubleArrayOf(0.25, 0.3, 0.3, 0.0, 0.0, 0.3, 0.3, 0.25),
+        doubleArrayOf(0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2)
     )
+
 
 
     init {
@@ -297,6 +300,67 @@ object ChessGame {
             Log.d("ChessGame", "Castling: $from to $to")
             Toast.makeText(appContext, "Castling: $from to $to", Toast.LENGTH_SHORT).show()
         }
+        else if (movingPiece.player == turn && canMove(from, to) && !isCheckAfterMove(movingPiece.player,from, to)) {
+            Log.d("ChessGame", "Moving ${movingPiece.chessman} from $from to $to")
+            Toast.makeText(appContext, "Moving ${movingPiece.chessman} from $from to $to", Toast.LENGTH_SHORT).show()
+            piecesBox[to] = movingPiece
+            piecesBox.remove(from)
+
+            if (movingPiece.chessman == Chessman.KING) {
+                hasKingMoved[movingPiece.player] = true
+            } else if (movingPiece.chessman == Chessman.ROOK) {
+                hasRookMoved[from] = true
+            }
+
+            promotePawn(movingPiece, to, piecesBox)
+            turn = if (turn == Player.WHITE) Player.BLACK else Player.WHITE
+
+        }
+    }
+    fun movePiece1(from: Square, to: Square) {
+
+        val movingPiece = pieceAt(from) ?: return
+        canEnPassant(from, to)
+        if(movingPiece.chessman == Chessman.KING && to.col == 2 && to.row == 0 && movingPiece.player == Player.WHITE && pieceAt(Square(1,0)) == null && pieceAt(Square(2,0)) == null && pieceAt(Square(3,0)) == null && !isCheck(Player.WHITE) && hasKingMoved[movingPiece.player] == false ){
+
+            piecesBox.remove(Square(0,0))
+            piecesBox.remove(from)
+            piecesBox[to] = ChessPiece(Player.WHITE,Chessman.KING,R.drawable.king_white)
+            piecesBox[Square(3,0)] = ChessPiece(Player.WHITE,Chessman.ROOK,R.drawable.rook_white)
+            turn = if (turn == Player.WHITE) Player.BLACK else Player.WHITE
+            Log.d("ChessGame", "Castling: $from to $to")
+            Toast.makeText(appContext, "Castling: $from to $to", Toast.LENGTH_SHORT).show()
+        }
+        if(movingPiece.chessman == Chessman.KING && to.col == 6 && to.row == 0 && movingPiece.player == Player.WHITE && pieceAt(Square(5,0)) == null && pieceAt(Square(6,0)) == null && !isCheck(Player.WHITE)  ){
+
+            piecesBox.remove(Square(7,0))
+            piecesBox.remove(from)
+            piecesBox[to] = ChessPiece(Player.WHITE,Chessman.KING,R.drawable.king_white)
+            piecesBox[Square(5,0)] = ChessPiece(Player.WHITE,Chessman.ROOK,R.drawable.rook_white)
+            turn = if (turn == Player.WHITE) Player.BLACK else Player.WHITE
+            Log.d("ChessGame", "Castling: $from to $to")
+            Toast.makeText(appContext, "Castling: $from to $to", Toast.LENGTH_SHORT).show()
+        }
+        if(movingPiece.chessman == Chessman.KING && to.col == 2 && to.row == 7 && movingPiece.player == Player.BLACK && pieceAt(Square(1,7)) == null && pieceAt(Square(2,7)) == null && pieceAt(Square(3,7)) == null && !isCheck(Player.BLACK) && hasKingMoved[movingPiece.player] == false ){
+
+            piecesBox.remove(Square(0,7))
+            piecesBox.remove(from)
+            piecesBox[to] = ChessPiece(Player.BLACK,Chessman.KING,R.drawable.king_black)
+            piecesBox[Square(3,7)] = ChessPiece(Player.BLACK,Chessman.ROOK,R.drawable.rook_black)
+            turn = if (turn == Player.WHITE) Player.BLACK else Player.WHITE
+            Log.d("ChessGame", "Castling: $from to $to")
+            Toast.makeText(appContext, "Castling: $from to $to", Toast.LENGTH_SHORT).show()
+        }
+        if(movingPiece.chessman == Chessman.KING && to.col == 6 && to.row == 7 && movingPiece.player == Player.BLACK && pieceAt(Square(5,7)) == null && pieceAt(Square(6,7)) == null && !isCheck(Player.BLACK)  ){
+
+            piecesBox.remove(Square(7,7))
+            piecesBox.remove(from)
+            piecesBox[to] = ChessPiece(Player.BLACK,Chessman.KING,R.drawable.king_black)
+            piecesBox[Square(5,7)] = ChessPiece(Player.BLACK,Chessman.ROOK,R.drawable.rook_black)
+            turn = if (turn == Player.WHITE) Player.BLACK else Player.WHITE
+            Log.d("ChessGame", "Castling: $from to $to")
+            Toast.makeText(appContext, "Castling: $from to $to", Toast.LENGTH_SHORT).show()
+        }
         else if (movingPiece.player == turn && canMove(from, to)) {
             Log.d("ChessGame", "Moving ${movingPiece.chessman} from $from to $to")
             Toast.makeText(appContext, "Moving ${movingPiece.chessman} from $from to $to", Toast.LENGTH_SHORT).show()
@@ -311,6 +375,7 @@ object ChessGame {
 
             promotePawn(movingPiece, to, piecesBox)
             turn = if (turn == Player.WHITE) Player.BLACK else Player.WHITE
+
         }
     }
     fun randomMoveForBlack() {
@@ -338,81 +403,29 @@ object ChessGame {
 
         return blackPieceMoves
     }
+//    fun scoreBoard(){
+//
+//
+////        if(isCheckmate(Player.WHITE)){
+////            return -CHECKMATE
+////        }
+////        else return CHECKMATE
+////        if (isStalemate(Player.WHITE) || isStalemate(Player.BLACK)){
+////            return STALEMATE
+////        }
+////        val score = 0
+//
+//        for(col in 0 until 8){
+//            for(row in 0 until 8){
+//                val value = pawnScores[row][col]
+//                    Log.d("Pawn score","pawnScores[$col][$row] = $value")
+//            }
+//        }
+//
+//    }
 
 
-    fun randomPieceAndMove() {
-        // Generate random coordinates for a square
-        val randomRow = Random.nextInt(8)
-        val randomCol = Random.nextInt(8)
-        val pieceSquare = Square(randomCol, randomRow)
 
-        // Retrieve the piece at the random square
-        val piece = ChessGame.pieceAt(pieceSquare) ?: return
-
-        // Generate all possible moves for the selected piece
-        val possibleMoves = mutableListOf<Square>()
-        for (targetRow in 0 until 8) {
-            for (targetCol in 0 until 8) {
-                val targetSquare = Square(targetCol, targetRow)
-                if (ChessGame.canMove(pieceSquare, targetSquare)) {
-                    possibleMoves.add(targetSquare)
-                }
-            }
-        }
-
-        if (possibleMoves.isNotEmpty()) {
-            // Select a random move from the list of valid moves
-            val randomMove = possibleMoves.random()
-
-            // Execute the move
-            ChessGame.movePiece(pieceSquare, randomMove)
-        }
-    }
-    fun randomMoveForPiece(pieceSquare: Square) {
-        val piece = ChessGame.pieceAt(pieceSquare) ?: return
-
-        val possibleMoves = mutableListOf<Square>()
-
-        // Generate all possible moves for the selected piece
-        for (row in 0 until 8) {
-            for (col in 0 until 8) {
-                val targetSquare = Square(col, row)
-                if (ChessGame.canMove(pieceSquare, targetSquare)) {
-                    possibleMoves.add(targetSquare)
-                }
-            }
-        }
-
-        if (possibleMoves.isNotEmpty()) {
-            // Select a random move from the list of valid moves
-            val randomMove = possibleMoves.random()
-
-            // Execute the move
-            ChessGame.movePiece(pieceSquare, randomMove)
-        }
-    }
-
-    fun whitePawnCheck(movingPiece: ChessPiece, to: Square, piecesBox: MutableMap<Square, ChessPiece>) : Boolean{
-        return if (movingPiece.chessman == Chessman.PAWN && (to.row == 0 || to.row == 7)) {
-            // Determine the player and promote to the appropriate queen
-            val newPiece = if (movingPiece.player == Player.WHITE) {
-                ChessPiece(Player.WHITE, Chessman.QUEEN, R.drawable.queen_white)
-            } else {
-                ChessPiece(Player.BLACK, Chessman.QUEEN, R.drawable.queen_black)
-            }
-
-            // Log pawn promotion
-            Log.d("ChessGame", "Pawn promotion at $to")
-//            Toast.makeText(appContext, "Pawn promotion at $to", Toast.LENGTH_SHORT).show()
-
-            // Remove the pawn from the board and replace it with a queen
-            piecesBox.remove(to)
-            piecesBox[to] = newPiece
-            true
-        } else {
-            false
-        }
-    }
     fun promotePawn(movingPiece: ChessPiece, to: Square, piecesBox: MutableMap<Square, ChessPiece>) {
         if (movingPiece.chessman == Chessman.PAWN && (to.row == 0 || to.row == 7)) {
             // Determine the player and promote to the appropriate queen
